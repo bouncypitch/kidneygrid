@@ -167,8 +167,11 @@ def _run_coordinator(agent: AgentSession, context: Context) -> None:
     scenario = "surgeon-reject" if ("reject" in prompt or cfg.get("reject-edge")) else ""
     if "cancel" in prompt:
         action, scenario = "confirm", "or-cancel"
-    models = [str(cfg.get("model", "flwrlabs/endeavor-1.0")), str(cfg.get("fallback-model", "openai/gpt-5.6-sol"))]
+    # Endeavor is enabled on the hospital nodes' keys, not in the coordinator's runtime; go straight to the fallback here.
+    models = [str(cfg.get("coordinator-model", cfg.get("fallback-model", "openai/gpt-5.6-sol")))]
     emit = _emitter(agent)
+    agent.events.emit({"type": "response.output_text.delta",
+                       "delta": "🌸 KidneyGrid coordinator started. Contacting the hospitals on the federation…\n\n"})
     try:
         transport = GridTransport(agent)
         if not transport.nodes():
