@@ -272,7 +272,15 @@ uv run uvicorn web.server:app --port 8765     # live demo UI</code></pre>
     const io = new IntersectionObserver((entries) => entries.forEach((e) => { if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); } }), { threshold: 0.15 });
     document.querySelectorAll(".reveal").forEach((el) => io.observe(el));
     const v = document.querySelector("video");
-    v.play().catch(() => {});  // Some browsers need an explicit play() call even for muted autoplay.
+    const play = () => v.play().catch(() => {});  // Some browsers need an explicit play() even for muted autoplay.
+    v.muted = true;
+    v.loop = true;
+    // Belt and braces: restart when it ends, in case a browser ignores `loop`.
+    v.addEventListener("ended", () => { v.currentTime = 0; play(); });
+    // Resume whenever the film scrolls back into view or the tab becomes visible again.
+    new IntersectionObserver((es) => es.forEach((e) => e.isIntersecting && play()), { threshold: 0.25 }).observe(v);
+    document.addEventListener("visibilitychange", () => { if (!document.hidden) play(); });
+    play();
   </script>
 </body>
 </html>
