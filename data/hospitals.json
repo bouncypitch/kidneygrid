@@ -2,7 +2,7 @@
   "_note": "Synthetic, fictional data for demonstration. In production each hospital's records live only on its own SuperNode.",
   "hospitals": {
     "bay-general": {
-      "display_name": "Bay General Hospital",
+      "display_name": "Bay General · San Francisco",
       "arrival": 4,
       "pairs": [
         {
@@ -56,7 +56,7 @@
       }
     },
     "mission-medical": {
-      "display_name": "Mission Medical Center",
+      "display_name": "Mission Medical · Oakland",
       "arrival": 1,
       "pairs": [
         {
@@ -96,7 +96,7 @@
       }
     },
     "valley-health": {
-      "display_name": "Valley Health",
+      "display_name": "Valley Health · San Jose",
       "arrival": 2,
       "pairs": [
         {
@@ -142,7 +142,7 @@
       }
     },
     "peninsula-medical": {
-      "display_name": "Peninsula Medical",
+      "display_name": "Peninsula Medical · Palo Alto",
       "arrival": 3,
       "pairs": [
         {
@@ -183,7 +183,7 @@
       }
     },
     "capitol-hospital": {
-      "display_name": "Capitol Hospital",
+      "display_name": "Capitol Hospital · Sacramento",
       "arrival": 5,
       "pairs": [
         {

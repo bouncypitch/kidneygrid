@@ -109,6 +109,7 @@ const Maria: React.FC = () => {
 };
 
 const HOSPITALS = ["Bay General", "Mission Medical", "Valley Health", "Peninsula Medical", "Capitol Hospital"];
+const CITIES = ["San Francisco", "Oakland", "San Jose", "Palo Alto", "Sacramento"];
 
 const Islands: React.FC<{ dur: number }> = ({ dur }) => {
   const frame = useCurrentFrame();
@@ -122,9 +123,8 @@ const Islands: React.FC<{ dur: number }> = ({ dur }) => {
           return (
             <g key={h}>
               <circle cx={cx} cy={cy} r={92} fill="#fff" stroke={C.line} strokeWidth={4} />
-              {h.split(" ").map((w, j) => (
-                <text key={w} x={cx} y={cy + 14 + j * 28} textAnchor="middle" fontSize={24} fontWeight={700} fill={C.ink} fontFamily={fontFamily}>{w}</text>
-              ))}
+              <text x={cx} y={cy + 14} textAnchor="middle" fontSize={22} fontWeight={700} fill={C.ink} fontFamily={fontFamily}>{h}</text>
+              <text x={cx} y={cy + 42} textAnchor="middle" fontSize={20} fill={C.muted} fontFamily={fontFamily}>{CITIES[i]}</text>
               <Lock x={cx} y={cy - 40} />
             </g>
           );
@@ -176,9 +176,10 @@ const GridScene: React.FC = () => {
         {pos.map((p, i) => (
           <g key={HOSPITALS[i]}>
             <circle cx={p.x} cy={p.y} r={84} fill="#fff" stroke={frame > 520 ? C.green : C.line} strokeWidth={5} />
-            {HOSPITALS[i].split(" ").map((w, j, all) => (
-              <text key={w} x={p.x} y={p.y + 9 + (j - (all.length - 1) / 2) * 28} textAnchor="middle" fontSize={24} fontWeight={700} fill={C.ink} fontFamily={fontFamily}>{w}</text>
+            {HOSPITALS[i].split(" ").map((w, j) => (
+              <text key={w} x={p.x} y={p.y - 14 + j * 26} textAnchor="middle" fontSize={22} fontWeight={700} fill={C.ink} fontFamily={fontFamily}>{w}</text>
             ))}
+            <text x={p.x} y={p.y + 44} textAnchor="middle" fontSize={19} fill={C.muted} fontFamily={fontFamily}>{CITIES[i]}</text>
           </g>
         ))}
         <circle cx={HUB.x} cy={HUB.y} r={80} fill={C.plum} />

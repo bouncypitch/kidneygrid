@@ -61,7 +61,7 @@ y = para(c, "If Tom can't give to his wife Maria, maybe he can give to James. Ja
 
 # Diagram: three couples in a loop
 cx, cy, r, rx = W / 2, y - 88, 62, 150
-couples = [("Tom", "Maria", "Bay General"), ("Linda", "James", "Mission Medical"), ("Sam", "Priya", "Valley Health")]
+couples = [("Tom", "Maria", "Bay General · San Francisco"), ("Linda", "James", "Mission Medical · Oakland"), ("Sam", "Priya", "Valley Health · San Jose")]
 pts = [(cx + rx * math.cos(math.radians(90 + i * 120)), cy + r * math.sin(math.radians(90 + i * 120))) for i in range(3)]
 c.setStrokeColor(ACCENT)
 c.setLineWidth(2)
@@ -80,7 +80,7 @@ for i in range(3):
     c.drawPath(path, stroke=0, fill=1)
 for (px, py), (donor, patient, hosp) in zip(pts, couples):
     c.setFillColor(SOFT)
-    c.roundRect(px - 62, py - 22, 124, 44, 10, stroke=1, fill=1)
+    c.roundRect(px - 82, py - 22, 164, 44, 10, stroke=1, fill=1)
     c.setFillColor(INK)
     c.setFont("Helvetica-Bold", 10)
     c.drawCentredString(px, py + 5, f"{donor} + {patient}")

@@ -75,11 +75,11 @@
   "type": "msg_received",
   "round": "REGISTER",
   "from": "1007919",
-  "bytes": 253,
+  "bytes": 265,
   "payload": {
    "hospital": "bay-general",
    "role": "hospital",
-   "display_name": "Bay General Hospital",
+   "display_name": "Bay General \u00b7 San Francisco",
    "arrival": 4,
    "pairs": [
     {
@@ -103,11 +103,11 @@
   "type": "msg_received",
   "round": "REGISTER",
   "from": "1015838",
-  "bytes": 261,
+  "bytes": 269,
   "payload": {
    "hospital": "mission-medical",
    "role": "hospital",
-   "display_name": "Mission Medical Center",
+   "display_name": "Mission Medical \u00b7 Oakland",
    "arrival": 1,
    "pairs": [
     {
@@ -131,11 +131,11 @@
   "type": "msg_received",
   "round": "REGISTER",
   "from": "1023757",
-  "bytes": 254,
+  "bytes": 270,
   "payload": {
    "hospital": "valley-health",
    "role": "hospital",
-   "display_name": "Valley Health",
+   "display_name": "Valley Health \u00b7 San Jose",
    "arrival": 2,
    "pairs": [
     {
@@ -159,11 +159,11 @@
   "type": "msg_received",
   "round": "REGISTER",
   "from": "1031676",
-  "bytes": 259,
+  "bytes": 276,
   "payload": {
    "hospital": "peninsula-medical",
    "role": "hospital",
-   "display_name": "Peninsula Medical",
+   "display_name": "Peninsula Medical \u00b7 Palo Alto",
    "arrival": 3,
    "pairs": [
     {
@@ -187,11 +187,11 @@
   "type": "msg_received",
   "round": "REGISTER",
   "from": "1039595",
-  "bytes": 257,
+  "bytes": 275,
   "payload": {
    "hospital": "capitol-hospital",
    "role": "hospital",
-   "display_name": "Capitol Hospital",
+   "display_name": "Capitol Hospital \u00b7 Sacramento",
    "arrival": 5,
    "pairs": [
     {
@@ -215,11 +215,11 @@
   "type": "msg_received",
   "round": "REGISTER",
   "from": "9990001",
-  "bytes": 107,
+  "bytes": 120,
   "payload": {
    "hospital": "golden-gate-courier",
    "role": "courier",
-   "display_name": "Golden Gate Medical Courier",
+   "display_name": "Golden Gate Courier \u00b7 San Francisco",
    "pairs": []
   }
  },
@@ -227,7 +227,7 @@
   "type": "courier",
   "node": "9990001",
   "id": "golden-gate-courier",
-  "name": "Golden Gate Medical Courier"
+  "name": "Golden Gate Courier \u00b7 San Francisco"
  },
  {
   "type": "hospitals",
@@ -235,31 +235,31 @@
    {
     "node": "1007919",
     "id": "bay-general",
-    "name": "Bay General Hospital",
+    "name": "Bay General \u00b7 San Francisco",
     "pairs": 1
    },
    {
     "node": "1015838",
     "id": "mission-medical",
-    "name": "Mission Medical Center",
+    "name": "Mission Medical \u00b7 Oakland",
     "pairs": 1
    },
    {
     "node": "1023757",
     "id": "valley-health",
-    "name": "Valley Health",
+    "name": "Valley Health \u00b7 San Jose",
     "pairs": 1
    },
    {
     "node": "1031676",
     "id": "peninsula-medical",
-    "name": "Peninsula Medical",
+    "name": "Peninsula Medical \u00b7 Palo Alto",
     "pairs": 1
    },
    {
     "node": "1039595",
     "id": "capitol-hospital",
-    "name": "Capitol Hospital",
+    "name": "Capitol Hospital \u00b7 Sacramento",
     "pairs": 1
    }
   ]

@@ -13,6 +13,11 @@ if [[ "${1:-start}" == "stop" ]]; then stop; echo "stopped"; exit 0; fi
 
 stop
 mkdir -p "$LOGS"
+# Model access for agents on the nodes; the key lives in a private, git-ignored file.
+if [[ -f keys/flower_api_key ]]; then
+  FLWR_MODEL_API_KEY="$(cat keys/flower_api_key)"
+  export FLWR_MODEL_API_KEY
+fi
 port=9120
 for h in "${HOSPITALS[@]}"; do
   # Separate FLWR_HOME per node: nodes sharing one machine must not share runtime folders.

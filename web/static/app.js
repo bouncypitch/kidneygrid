@@ -37,6 +37,7 @@ const el = (tag, attrs = {}, parent = svg) => {
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 const short = (id) => "…" + String(id).slice(-4);
 const hname = (hid) => state.hospitals[hid]?.display_name || hid;
+const hshort = (hid) => hname(hid).split(" · ")[0];
 
 function fmtDay(iso) {
   return new Date(iso + "T12:00:00").toLocaleDateString("en-US", { weekday: "short", month: "short", day: "numeric" });
@@ -109,9 +110,9 @@ function labelNodes() {
     const hid = state.hospitalOf[n];
     if (!hid) continue;
     const texts = document.querySelectorAll(`#n-${n} text`);
-    const words = hname(hid).split(" ");
-    texts[0].textContent = words.slice(0, 2).join(" ");
-    texts[1].textContent = words.slice(2).join(" ") || short(n);
+    const [name, city] = hname(hid).split(" · ");
+    texts[0].textContent = name;
+    texts[1].textContent = city || short(n);
   }
   drawHospitalCards();
 }
@@ -219,7 +220,7 @@ function summarize(ev) {
 function ledger(ev) {
   const out = ev.type === "msg_sent";
   const node = out ? ev.to : ev.from;
-  const who = (node === state.courierNode && state.courierName) || hname(state.hospitalOf[node]) || "node " + short(node);
+  const who = (node === state.courierNode && String(state.courierName).split(" · ")[0]) || (state.hospitalOf[node] && hshort(state.hospitalOf[node])) || "node " + short(node);
   const bad = !out && ev.payload?.error;
   const row = document.createElement("div");
   row.className = "lrow";
@@ -322,8 +323,9 @@ const handlers = {
     if (g) {
       g.classList.add("courier");
       const t = g.querySelectorAll("text");
-      t[0].textContent = "Courier";
-      t[1].textContent = "Golden Gate";
+      const [name, city] = String(e.name).split(" · ");
+      t[0].textContent = name;
+      t[1].textContent = city || "Courier";
     }
   },
   schedule_requested: () => {
@@ -368,7 +370,7 @@ const handlers = {
     e.bookings.forEach((b) => {
       const row = [...document.querySelectorAll(".loop-row")].find((r) => r.querySelector(".date.ok")?.textContent === fmtDay(b.day));
       row?.querySelector(".vans").insertAdjacentHTML("beforeend",
-        `<div class="van">🚐 <b>${b.vehicle || "unassigned"}</b> · ${hname(b.from_hospital)} → ${hname(b.to_hospital)} · ${b.pickup}–${b.delivery || "?"}</div>`);
+        `<div class="van">🚐 <b>${b.vehicle || "unassigned"}</b> · ${hshort(b.from_hospital)} → ${hshort(b.to_hospital)} · ${b.pickup}–${b.delivery || "?"}</div>`);
     });
     status(`${state.courierName || "The courier"} booked ${e.bookings.filter((b) => b.booked).length} cold-chain vans. It saw hospitals and days, never patients.`);
   },
