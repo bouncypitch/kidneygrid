@@ -237,8 +237,16 @@ function ledger(ev) {
 // ---------------------------------------------------------------- handlers
 
 const handlers = {
-  run_started: (e) => status(`Flower run ${short(e.run_id)} started on the SuperLink…`),
+  run_started: (e) => {
+    const t0 = Date.now();
+    clearInterval(state.queueTimer);
+    state.queueTimer = setInterval(() => {
+      const secs = Math.round((Date.now() - t0) / 1000);
+      status(`⏳ Run ${short(e.run_id)} is queued on Flower's SuperGrid… ${Math.floor(secs / 60)}:${String(secs % 60).padStart(2, "0")}. The network is busy; press L for Replay.`);
+    }, 1000);
+  },
   nodes_found: (e) => {
+    clearInterval(state.queueTimer);
     state.nodes = e.nodes;
     drawNetwork(e.nodes);
     labelNodes();
@@ -388,9 +396,9 @@ const handlers = {
     status(e.text);
     if (label) $("#status").insertAdjacentHTML("beforeend", ` <span class="model-tag">explained by ${label}</span>`);
   },
-  error: (e) => { status("Error: " + (typeof e.detail === "string" ? e.detail : JSON.stringify(e.detail)).slice(0, 160)); },
+  error: (e) => { clearInterval(state.queueTimer); status("Error: " + (typeof e.detail === "string" ? e.detail : JSON.stringify(e.detail)).slice(0, 160)); },
   done: () => { state.busy = false; setButtons(); },
-  stream_end: () => { state.busy = false; setButtons(); },
+  stream_end: () => { clearInterval(state.queueTimer); state.busy = false; setButtons(); },
 };
 
 async function drain() {
@@ -434,7 +442,7 @@ async function run(scenario) {
     const events = await (await fetch(`/api/replay/${scenario}`)).json();
     events.forEach(push);
   } else {
-    status("Starting a live run on Flower…");
+    status("Starting a live run on Flower's SuperGrid…");
     const src = new EventSource(`/api/live/${scenario}`);
     src.onmessage = (m) => {
       const ev = JSON.parse(m.data);
