@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>KidneyGrid</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+  <header>
+    <div class="brand">
+      <div class="logo">Kidney<span>Grid</span></div>
+      <div class="tagline">Kidney swaps across hospitals, with no patient data shared</div>
+    </div>
+    <div class="controls">
+      <div class="mode" id="mode">
+        <button data-mode="replay" class="on">Replay</button>
+        <button data-mode="live">Live · Flower</button>
+      </div>
+      <button class="act" data-run="match"><kbd>1</kbd> Run match</button>
+      <button class="act" data-run="confirm"><kbd>2</kbd> Approve</button>
+      <button class="act warn" data-run="reject"><kbd>3</kbd> Surgeon rejects</button>
+      <button class="act danger" data-run="inject"><kbd>4</kbd> Attack</button>
+      <button class="ghost" id="scaleBtn"><kbd>S</kbd> Scale</button>
+    </div>
+  </header>
+
+  <main>
+    <section class="col hospitals-col">
+      <h2>Inside each hospital <span class="lock">🔒 never sent</span></h2>
+      <div id="hospitals"></div>
+      <div class="hint">Press <kbd>P</kbd> to peek at private records</div>
+    </section>
+
+    <section class="col center">
+      <svg id="net" viewBox="0 0 800 640" preserveAspectRatio="xMidYMid meet"></svg>
+      <div id="banner" class="banner"></div>
+      <div id="reveal" class="reveal"></div>
+    </section>
+
+    <section class="col right">
+      <div class="scores">
+        <div class="score" id="s-siloed"><div class="num">–</div><div class="lbl">Each hospital alone</div></div>
+        <div class="score" id="s-naive"><div class="num">–</div><div class="lbl">First-come matching</div></div>
+        <div class="score hero" id="s-optimal"><div class="num">–</div><div class="lbl">KidneyGrid</div></div>
+      </div>
+      <h2>Privacy ledger <span class="sub">everything that crossed the network</span></h2>
+      <div id="ledger" class="ledger"></div>
+      <div class="stayed">
+        <div class="stayed-title">Never left any hospital</div>
+        <div class="chips"><span>Names</span><span>Antibody profiles</span><span>cPRA values</span><span>Medical records</span><span>Clinical reasons</span></div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div id="status" class="status">Ready. Five hospitals, each with a patient whose loved one can't donate to them.</div>
+    <div class="flower">Runs on <b>Flower</b> · SuperNodes · Grid messaging · Human approval</div>
+  </footer>
+
+  <div id="scale" class="modal hidden">
+    <div class="modal-card">
+      <h2>At scale: 300 simulated pairs across 10 hospitals</h2>
+      <div id="scaleBody"></div>
+      <p class="fine">Pools generated with the Saidman et al. (2006) model as specified by Roth, Sönmez &amp; Ünver (2007). Hospital assignment is uniform. Simulated data.</p>
+    </div>
+  </div>
+
+  <script src="/static/app.js"></script>
+</body>
+</html>

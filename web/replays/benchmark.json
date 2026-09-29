@@ -1,0 +1,64 @@
+{
+ "pairs": 300,
+ "hospitals": 10,
+ "trials": 5,
+ "seed": 2026,
+ "average": {
+  "siloed": 126.0,
+  "naive": 160.4,
+  "kidneygrid": 177.8,
+  "high_pra_total": 59.8,
+  "high_siloed": 23.6,
+  "high_naive": 35.4,
+  "high_kidneygrid": 57.2
+ },
+ "gain_vs_siloed_pct": 41.1,
+ "gain_vs_naive_pct": 10.8,
+ "trials_detail": [
+  {
+   "siloed": 121,
+   "naive": 174,
+   "kidneygrid": 183,
+   "high_pra_total": 53,
+   "high_siloed": 12,
+   "high_naive": 32,
+   "high_kidneygrid": 53
+  },
+  {
+   "siloed": 121,
+   "naive": 148,
+   "kidneygrid": 167,
+   "high_pra_total": 57,
+   "high_siloed": 28,
+   "high_naive": 33,
+   "high_kidneygrid": 56
+  },
+  {
+   "siloed": 114,
+   "naive": 150,
+   "kidneygrid": 173,
+   "high_pra_total": 61,
+   "high_siloed": 22,
+   "high_naive": 31,
+   "high_kidneygrid": 58
+  },
+  {
+   "siloed": 147,
+   "naive": 173,
+   "kidneygrid": 189,
+   "high_pra_total": 61,
+   "high_siloed": 28,
+   "high_naive": 41,
+   "high_kidneygrid": 60
+  },
+  {
+   "siloed": 127,
+   "naive": 157,
+   "kidneygrid": 177,
+   "high_pra_total": 67,
+   "high_siloed": 28,
+   "high_naive": 40,
+   "high_kidneygrid": 59
+  }
+ ]
+}

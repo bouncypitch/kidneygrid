@@ -11,13 +11,13 @@ requires-python = ">=3.11,<4.0"
 dependencies = ["flwr>=1.39.0,<2.0", "openai>=2.16.0,<3.0.0"]
 
 [dependency-groups]
-dev = ["pytest>=8", "fastapi>=0.115", "uvicorn>=0.30", "pulp>=2.8"]
+dev = ["pytest>=8", "fastapi>=0.115", "uvicorn>=0.30", "scipy>=1.13", "numpy>=1.26"]
 
 [tool.hatch.build.targets.wheel]
 packages = ["kidneygrid"]
 
 [tool.flwr.app]
-publisher = "local"
+publisher = "kdotmahesh"
 fab-format-version = 1
 flwr-version-target = "1.39.0"
 fab-include = ["kidneygrid/**/*.py", "kidneygrid/data/*.json", "LICENSE"]
