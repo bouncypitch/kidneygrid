@@ -433,8 +433,17 @@ function reset() {
   if (state.nodes.length) drawNetwork(state.nodes), labelNodes();
 }
 
+function cancelLive() {
+  // A queued SuperGrid run can take minutes; never let it lock the demo.
+  if (state.source) { state.source.close(); state.source = null; }
+  clearInterval(state.queueTimer);
+  state.queue = [];
+  state.busy = false;
+}
+
 async function run(scenario) {
-  if (state.busy) return;
+  if (state.busy && state.mode === "replay" && !state.source) return;
+  cancelLive();
   state.busy = true;
   setButtons();
   reset();
@@ -444,6 +453,7 @@ async function run(scenario) {
   } else {
     status("Starting a live run on Flower's SuperGrid…");
     const src = new EventSource(`/api/live/${scenario}`);
+    state.source = src;
     src.onmessage = (m) => {
       const ev = JSON.parse(m.data);
       if (ev.type === "stream_end") src.close();
@@ -453,9 +463,13 @@ async function run(scenario) {
   }
 }
 
-function setButtons() { document.querySelectorAll("[data-run]").forEach((b) => (b.disabled = state.busy)); }
+function setButtons() {
+  // Live runs stay interruptible; only short Replay playback disables the buttons.
+  document.querySelectorAll("[data-run]").forEach((b) => (b.disabled = state.busy && !state.source));
+}
 
 function setMode(mode) {
+  if (mode === "replay") { cancelLive(); setButtons(); status("Replay mode: recorded runs, instant and offline. Press 2 to start."); }
   state.mode = mode;
   document.querySelectorAll("#mode button").forEach((b) => b.classList.toggle("on", b.dataset.mode === mode));
 }
