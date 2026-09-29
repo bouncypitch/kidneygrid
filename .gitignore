@@ -7,3 +7,4 @@ __pycache__/
 video/out/
 node_modules/
 keys/
+.pytest_cache/
