@@ -21,7 +21,7 @@ const C = {
   green: "#0e9f6e", mint: "#d7f2e3", muted: "#6e5f69", line: "#e6dde4", amber: "#d97706", red: "#dc2626",
 };
 
-const SCENES = { stakes: 270, maria: 540, islands: 450, grid: 780, close: 480 };
+const SCENES = { stakes: 270, maria: 540, islands: 450, grid: 780, close: 480, thanks: 300 };
 export const filmDuration = Object.values(SCENES).reduce((a, b) => a + b, 0);
 const OPENER = { stakes: 240, maria: 480, islands: 360, tag: 120 };
 export const openerDuration = Object.values(OPENER).reduce((a, b) => a + b, 0);
@@ -236,6 +236,39 @@ const Close: React.FC<{ short?: boolean }> = ({ short }) => {
   );
 };
 
+
+const SPONSORS = [
+  { name: "Flower Labs", what: "Flower Agent, SuperGrid, Flower Hub and Endeavor 1.0 power every agent." },
+  { name: "Nebius", what: "Capitol Hospital's SuperNode runs on Nebius Serverless AI (NVIDIA L40S)." },
+  { name: "Arm", what: "Five SuperNodes run on an Arm-based Apple M1 Pro laptop." },
+  { name: "AMD", what: "Thank you for supporting the builders at this hackathon." },
+];
+
+const Thanks: React.FC = () => {
+  const frame = useCurrentFrame();
+  return (
+    <AbsoluteFill style={{ background: C.paper, padding: "110px 160px", opacity: fade(frame, 0, SCENES.thanks, 15) }}>
+      <div style={{ fontSize: 28, fontWeight: 700, letterSpacing: 3, textTransform: "uppercase", color: C.pink }}>Thank you</div>
+      <div style={{ fontSize: 76, fontWeight: 700, letterSpacing: -2.5, marginTop: 12 }}>Built with the help of our sponsors</div>
+      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 28, marginTop: 56 }}>
+        {SPONSORS.map((sp, i) => {
+          const s = spring({ frame: frame - 20 - i * 12, fps: FPS, config: { damping: 15 } });
+          return (
+            <div key={sp.name} style={{ background: i === 0 ? "#efe4f2" : "#ffffff", border: `2px solid ${C.line}`, borderRadius: 28,
+              padding: "30px 36px", opacity: Math.min(1, s * 1.4), transform: `translateY(${(1 - s) * 24}px)` }}>
+              <div style={{ fontSize: 44, fontWeight: 700, color: C.plum }}>{sp.name}</div>
+              <div style={{ fontSize: 28, color: C.muted, marginTop: 8, lineHeight: 1.35 }}>{sp.what}</div>
+            </div>
+          );
+        })}
+      </div>
+      <div style={{ position: "absolute", bottom: 64, left: 160, fontSize: 24, color: C.muted, opacity: fade(frame, 60, SCENES.thanks - 60) }}>
+        Flower Collaborative Agent Hackathon · Stanford · September 29, 2026
+      </div>
+    </AbsoluteFill>
+  );
+};
+
 // ------------------------------------------------------------------ film
 
 export const Film: React.FC<FilmProps> = ({ voiceover, music, demoFootage, opener }) => {
@@ -257,6 +290,7 @@ export const Film: React.FC<FilmProps> = ({ voiceover, music, demoFootage, opene
           {demoFootage ? <OffthreadVideo src={staticFile("demo.mp4")} muted /> : <GridScene />}
         </Sequence>,
         <Sequence key="c" from={at(SCENES.close)} durationInFrames={SCENES.close}><Close /></Sequence>,
+        <Sequence key="t" from={at(SCENES.thanks)} durationInFrames={SCENES.thanks}><Thanks /></Sequence>,
       ];
   return (
     <AbsoluteFill style={{ fontFamily, background: C.paper }}>
