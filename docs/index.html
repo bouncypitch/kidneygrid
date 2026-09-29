@@ -30,7 +30,7 @@
     nav .links a { text-decoration: none; color: var(--soft-ink); }
     nav .links a:hover { color: var(--ink); }
 
-    .hero { padding: 72px 0 40px; text-align: center; }
+    .hero { padding: 28px 0 56px; text-align: center; }
     .eyebrow { display: inline-block; font-size: 13px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--pink); margin-bottom: 18px; }
     h1 { font-size: clamp(44px, 7vw, 88px); line-height: 1.02; letter-spacing: -0.045em; margin: 0 auto 20px; max-width: 900px; }
     .lede { font-size: clamp(18px, 2.2vw, 22px); line-height: 1.5; color: var(--soft-ink); max-width: 720px; margin: 0 auto 32px; }
@@ -39,7 +39,7 @@
     .btn:hover { transform: translateY(-1px); box-shadow: 0 8px 24px rgba(29, 12, 23, .08); }
     .btn.primary { background: var(--plum); border-color: var(--plum); color: #fff; }
 
-    .video-frame { margin: 48px auto 0; max-width: 1000px; border-radius: 28px; overflow: hidden; box-shadow: 0 30px 80px rgba(91, 26, 99, .18), 0 2px 6px rgba(29, 12, 23, .06); background: #fff; aspect-ratio: 16 / 9; }
+    .video-frame { margin: 0 auto; max-width: 1080px; border-radius: 28px; overflow: hidden; box-shadow: 0 30px 80px rgba(91, 26, 99, .18), 0 2px 6px rgba(29, 12, 23, .06); background: #fff; aspect-ratio: 16 / 9; }
     .video-frame video { width: 100%; height: 100%; display: block; object-fit: cover; }
     .caption { font-size: 13px; color: var(--muted); margin-top: 12px; }
 
@@ -135,17 +135,17 @@
 
   <header class="hero">
     <div class="wrap">
-      <div class="eyebrow">Flower Collaborative Agent Hackathon · Stanford 2026</div>
+      <div class="video-frame">
+        <video src="assets/kidneygrid.mp4" poster="assets/poster.jpg" autoplay muted loop playsinline preload="auto" aria-label="KidneyGrid explainer film"></video>
+      </div>
+      <div class="caption">84-second film. People shown are fictional and the data is simulated.</div>
+      <div class="eyebrow" style="margin-top:44px">Flower Collaborative Agent Hackathon · Stanford 2026</div>
       <h1>Kidney swaps across hospitals, with <span class="accent">no patient data shared.</span></h1>
       <p class="lede">Many patients waiting for a kidney already have a loved one willing to donate, who is the wrong match. KidneyGrid gives every hospital a Flower agent that keeps its records private, and together the agents find swap loops no hospital could find alone.</p>
       <div class="ctas">
         <a class="btn primary" href="https://github.com/bouncypitch/kidneygrid">View on GitHub</a>
         <a class="btn" href="https://flower.ai/apps/kdotmahesh/kidneygrid/">Run on Flower Hub</a>
       </div>
-      <div class="video-frame">
-        <video src="assets/kidneygrid.mp4" poster="assets/poster.jpg" autoplay muted loop playsinline preload="auto" aria-label="KidneyGrid explainer film"></video>
-      </div>
-      <div class="caption">84-second film. People shown are fictional and the data is simulated.</div>
     </div>
   </header>
 
