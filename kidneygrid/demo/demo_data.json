@@ -1,0 +1,256 @@
+{
+ "_note": "Synthetic, fictional demo data used only when no hospital SuperNodes are present.",
+ "hospitals": {
+  "bay-general": {
+   "display_name": "Bay General · San Francisco",
+   "arrival": 4,
+   "pairs": [
+    {
+     "pair_id": "bay-general-1",
+     "patient": {
+      "name": "Maria",
+      "abo": "O",
+      "cpra": 98,
+      "years_waiting": 7,
+      "unacceptable": [
+       "A1",
+       "A2",
+       "A3",
+       "A24",
+       "A26",
+       "B7",
+       "B8",
+       "B35",
+       "B51",
+       "B62",
+       "DR1",
+       "DR4",
+       "DR7",
+       "DR15",
+       "DR17"
+      ]
+     },
+     "donor": {
+      "name": "Tom",
+      "relation": "husband",
+      "abo": "A",
+      "hla": [
+       "A2",
+       "A24",
+       "B7",
+       "B8",
+       "DR4",
+       "DR15"
+      ]
+     }
+    }
+   ],
+   "role": "hospital",
+   "calendar": {
+    "days": [
+     "2026-10-06",
+     "2026-10-07",
+     "2026-10-08"
+    ],
+    "or_slots": 2
+   }
+  },
+  "mission-medical": {
+   "display_name": "Mission Medical · Oakland",
+   "arrival": 1,
+   "pairs": [
+    {
+     "pair_id": "mission-medical-1",
+     "patient": {
+      "name": "James",
+      "abo": "A",
+      "cpra": 21,
+      "years_waiting": 3,
+      "unacceptable": [
+       "B44"
+      ]
+     },
+     "donor": {
+      "name": "Linda",
+      "relation": "wife",
+      "abo": "B",
+      "hla": [
+       "A1",
+       "A3",
+       "B35",
+       "B51",
+       "DR1",
+       "DR7"
+      ]
+     }
+    }
+   ],
+   "role": "hospital",
+   "calendar": {
+    "days": [
+     "2026-10-05",
+     "2026-10-06",
+     "2026-10-08"
+    ],
+    "or_slots": 2
+   }
+  },
+  "valley-health": {
+   "display_name": "Valley Health · San Jose",
+   "arrival": 2,
+   "pairs": [
+    {
+     "pair_id": "valley-health-1",
+     "patient": {
+      "name": "Priya",
+      "abo": "B",
+      "cpra": 34,
+      "years_waiting": 4,
+      "unacceptable": [
+       "B44"
+      ]
+     },
+     "donor": {
+      "name": "Sam",
+      "relation": "partner",
+      "abo": "O",
+      "hla": [
+       "A11",
+       "A68",
+       "B44",
+       "B57",
+       "DR11",
+       "DR13"
+      ]
+     }
+    }
+   ],
+   "role": "hospital",
+   "calendar": {
+    "days": [
+     "2026-10-06",
+     "2026-10-08",
+     "2026-10-09"
+    ],
+    "or_slots": 2
+   },
+   "holds": {
+    "or-cancel": {
+     "day": "2026-10-06",
+     "reason": "Emergency case took the operating room"
+    }
+   }
+  },
+  "peninsula-medical": {
+   "display_name": "Peninsula Medical · Palo Alto",
+   "arrival": 3,
+   "pairs": [
+    {
+     "pair_id": "peninsula-medical-1",
+     "patient": {
+      "name": "Daniel",
+      "abo": "AB",
+      "cpra": 27,
+      "years_waiting": 2,
+      "unacceptable": [
+       "A2",
+       "B35"
+      ]
+     },
+     "donor": {
+      "name": "Rosa",
+      "relation": "wife",
+      "abo": "A",
+      "hla": [
+       "A2",
+       "A29",
+       "B18",
+       "B62",
+       "DR3",
+       "DR8"
+      ]
+     }
+    }
+   ],
+   "role": "hospital",
+   "calendar": {
+    "days": [
+     "2026-10-07",
+     "2026-10-08",
+     "2026-10-09"
+    ],
+    "or_slots": 2
+   }
+  },
+  "capitol-hospital": {
+   "display_name": "Capitol Hospital · Sacramento",
+   "arrival": 5,
+   "pairs": [
+    {
+     "pair_id": "capitol-hospital-1",
+     "patient": {
+      "name": "Aisha",
+      "abo": "A",
+      "cpra": 15,
+      "years_waiting": 5,
+      "unacceptable": [
+       "B57"
+      ]
+     },
+     "donor": {
+      "name": "Kevin",
+      "relation": "husband",
+      "abo": "AB",
+      "hla": [
+       "A30",
+       "A33",
+       "B13",
+       "B58",
+       "DR9",
+       "DR12"
+      ]
+     }
+    }
+   ],
+   "holds": {
+    "surgeon-reject": {
+     "pair_id": "capitol-hospital-1",
+     "reason": "Physical crossmatch for incoming donor came back positive; surgeon declines this leg."
+    }
+   },
+   "role": "hospital",
+   "calendar": {
+    "days": [
+     "2026-10-05",
+     "2026-10-07",
+     "2026-10-09"
+    ],
+    "or_slots": 2
+   }
+  }
+ },
+ "courier": {
+  "hospital": "golden-gate-courier",
+  "role": "courier",
+  "display_name": "Golden Gate Courier · San Francisco",
+  "vehicles": [
+   "Cold-chain van 1",
+   "Cold-chain van 2",
+   "Cold-chain van 3"
+  ],
+  "max_transport_hours": 6,
+  "pickup_time": "08:30",
+  "drive_minutes": {
+   "bay-general|mission-medical": 25,
+   "bay-general|valley-health": 70,
+   "bay-general|peninsula-medical": 45,
+   "bay-general|capitol-hospital": 110,
+   "mission-medical|valley-health": 60,
+   "mission-medical|peninsula-medical": 45,
+   "mission-medical|capitol-hospital": 90,
+   "valley-health|peninsula-medical": 30,
+   "valley-health|capitol-hospital": 140,
+   "peninsula-medical|capitol-hospital": 125
+  }
+ }
+}

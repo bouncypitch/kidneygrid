@@ -8,13 +8,14 @@ Privacy-critical steps run as plain code; the model only writes explanations.
 import json
 import os
 import uuid
+from importlib import resources
 
 from flwr.agentapp import AgentApp, AgentSession
 from flwr.app import Context
 from openai import OpenAI
 
-from kidneygrid.coordinator import Coordinator
-from kidneygrid.exchange import load_local_records, make_agent
+from kidneygrid.coordinator import Coordinator, LocalTransport
+from kidneygrid.exchange import CourierAgent, HospitalAgent, load_local_records, make_agent
 
 EVENT_PREFIX = "KIDNEYGRID_EVENT "
 PULL_TIMEOUT = 240
@@ -96,12 +97,63 @@ def _narrator(models: list[str], instructions: str = COORDINATOR_INSTRUCTIONS):
     return narrate
 
 
+def _chat_line(kind: str, d: dict, names: dict) -> str | None:
+    """Human-readable transcript for Flower chat (browser or `flwr chat`)."""
+    n = lambda h: names.get(h, h)  # noqa: E731
+    if kind == "nodes_found":
+        return f"🔎 Found **{d['count']}** organizations on the federation.\n\n"
+    if kind == "hospitals":
+        names.update({h["id"]: h["name"] for h in d["hospitals"]})
+        return "🏥 Hospitals: " + ", ".join(h["name"] for h in d["hospitals"]) + "\n\n"
+    if kind == "graph":
+        return f"🔒 Each hospital checked every anonymous donor token locally → **{len(d['edges'])}** possible donations. No patient record left any hospital.\n\n"
+    if kind == "cycle_rejected_long":
+        return f"⛔ Skipped a {len(d['cycle'])}-way loop: it would need {d['surgeries']} simultaneous surgeries.\n\n"
+    if kind in ("plan_siloed", "plan_naive", "plan_optimal"):
+        label = {"plan_siloed": "Each hospital alone", "plan_naive": "First-come matching", "plan_optimal": "**KidneyGrid**"}[kind]
+        return f"- {label}: **{d['transplants']}** transplants\n" + ("\n" if kind == "plan_optimal" else "")
+    if kind == "rejected":
+        return f"❌ {n(d['leg']['to_hospital'])} surgeon declined a leg ({d['leg']['category']}). Re-planning…\n\n"
+    if kind == "briefing":
+        who = "Endeavor 1.0" if d.get("model") == "flwrlabs/endeavor-1.0" else d.get("model")
+        return f"🩺 {n(d['hospital'])} surgeon briefing ({who}): _{d['text']}_\n\n"
+    if kind == "booking_declined":
+        return f"🚨 {n(d['hospital'])}: {d['category']} on {d['day']}. Moving the whole loop…\n\n"
+    if kind == "schedule_confirmed":
+        return "📅 Transplant Day: " + ", ".join(f"loop {chr(65 + int(i))} on {day}" for i, day in d["days"].items()) + "\n\n"
+    if kind == "transport_booked":
+        ok = [b for b in d["bookings"] if b["booked"]]
+        return f"🚐 Courier booked {len(ok)} cold-chain vans (it saw hospitals and days, never patients).\n\n"
+    if kind == "reveal":
+        pairs = ", ".join(f"{p['patient']} ({n(p['hospital'])})" for p in d["people"].values())
+        return f"🎉 Surgeons approved. Identities released only now: {pairs}\n\n"
+    if kind == "injection_blocked":
+        return f"🛡 Prompt-injection attack refused: \"{d['reply'].get('error')}\". No data returned.\n\n"
+    if kind == "narrative":
+        return f"{d['text']}\n"
+    return None
+
+
 def _emitter(agent: AgentSession):
+    names: dict = {}
+
     def emit(kind: str, data: dict) -> None:
         print(EVENT_PREFIX + json.dumps({"type": kind, **data}), flush=True)
         agent.events.emit({"type": "kidneygrid." + kind, "data": data})
+        line = _chat_line(kind, data, names)
+        if line:
+            agent.events.emit({"type": "response.output_text.delta", "delta": line})
 
     return emit
+
+
+def _demo_transport() -> LocalTransport:
+    """Simulated hospitals from bundled synthetic data, for federations without KidneyGrid nodes."""
+    data = json.loads(resources.files("kidneygrid").joinpath("demo/demo_data.json").read_text())
+    agents = {hid: HospitalAgent(hid, rec) for hid, rec in data["hospitals"].items()}
+    courier = dict(data["courier"])
+    agents["courier"] = CourierAgent(courier.pop("hospital"), courier)
+    return LocalTransport(agents)
 
 
 def _run_coordinator(agent: AgentSession, context: Context) -> None:
@@ -116,9 +168,21 @@ def _run_coordinator(agent: AgentSession, context: Context) -> None:
     if "cancel" in prompt:
         action, scenario = "confirm", "or-cancel"
     models = [str(cfg.get("model", "flwrlabs/endeavor-1.0")), str(cfg.get("fallback-model", "openai/gpt-5.6-sol"))]
-    coord = Coordinator(GridTransport(agent), _emitter(agent), _narrator(models))
-    result = coord.run(action=action, scenario=scenario)
-    agent.events.emit({"type": "message", "role": "assistant", "content": result.get("narrative", json.dumps(result))})
+    emit = _emitter(agent)
+    try:
+        transport = GridTransport(agent)
+        if not transport.nodes():
+            agent.events.emit({"type": "response.output_text.delta", "delta": (
+                "ℹ️ No KidneyGrid hospital nodes in this federation, so this is a **simulated** 5-hospital exchange "
+                "with synthetic data. For the live network, run in federation `@kdotmahesh/kidneygrid`.\n\n")})
+            transport = _demo_transport()
+        result = Coordinator(transport, emit, _narrator(models)).run(action=action, scenario=scenario)
+    except Exception as exc:
+        agent.events.emit({"type": "response.output_text.delta", "delta": f"\n⚠️ KidneyGrid run failed: {type(exc).__name__}: {exc}\n"})
+        raise
+    finally:
+        # Flower chat waits for a terminal event before it considers the answer complete.
+        agent.events.emit({"type": "response.completed"})
 
 
 def _run_hospital(agent: AgentSession, context: Context) -> None:

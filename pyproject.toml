@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "kidneygrid"
-version = "0.2.4"
+version = "0.2.5"
 description = "Privacy-preserving kidney paired exchange across hospitals with collaborative Flower Agents"
 license = { file = "LICENSE" }
 requires-python = ">=3.11,<4.0"
@@ -21,7 +21,7 @@ publisher = "kdotmahesh"
 display-name = "KidneyGrid"
 fab-format-version = 1
 flwr-version-target = "1.39.0"
-fab-include = ["kidneygrid/**/*.py", "LICENSE", "README.md"]
+fab-include = ["kidneygrid/**/*.py", "kidneygrid/demo/*.json", "LICENSE", "README.md"]
 
 [tool.flwr.app.components]
 agentapp = "kidneygrid.agent_app:app"
