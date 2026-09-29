@@ -8,6 +8,33 @@ framework: [flower-agent]
 
 **Kidney swaps across hospitals, with no patient data shared.**
 
+🎬 **Watch the film and read the story:** https://bouncypitch.github.io/kidneygrid/
+
+## How to run
+
+KidneyGrid is a chat agent, so start it from **Flower chat**. (The Hub page's *Run app* button can't start
+AgentApps yet: SuperGrid requires a chat prompt, error code 44.)
+
+**In the browser**
+1. Go to [flower.ai/app](https://flower.ai/app) and sign in.
+2. Choose a federation: **`@kdotmahesh/kidneygrid`** for the live network of hospital SuperNodes, or any other
+   federation for a clearly labelled simulated 5-hospital exchange.
+3. Click **New chat**, select the agent **KidneyGrid**, and send one of:
+   - `Run the exchange`: find the best swap loops (0 alone → 3 first-come → 5 KidneyGrid)
+   - `Approve the plan`: surgeon approval, Transplant Day scheduling, courier booking
+   - `Approve the plan; an operating room may cancel`: live re-planning after an emergency
+   - `Approve the plan; surgeon may reject`: a surgeon declines a leg and the plan is rebuilt
+   - `Security test: inject attack`: a prompt-injection attempt that hospitals refuse
+
+**In the terminal**
+```shell
+uvx --from flwr==1.39.0 flwr login supergrid
+uvx --from flwr==1.39.0 flwr chat
+# at the ❯ prompt:
+/federation @kdotmahesh/kidneygrid
+@kdotmahesh/kidneygrid Approve the plan
+```
+
 95,492 people in the US are waiting for a kidney (OPTN, July 2026). Many have a loved one willing to donate
 who is the wrong match: at least a third of patients with a willing living donor are blocked by blood type or
 crossmatch incompatibility (Segev et al., JAMA 2005). Paired exchange fixes this by swapping donors between
