@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "kidneygrid"
-version = "0.2.7"
+version = "0.2.8"
 description = "Privacy-preserving kidney paired exchange across hospitals with collaborative Flower Agents"
 license = { file = "LICENSE" }
 requires-python = ">=3.11,<4.0"

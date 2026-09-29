@@ -72,6 +72,21 @@ organization on the same federation — books transport for each kidney without 
   handlers; the model never sees private records. A prompt-injection request returns `unsupported request`.
 * **The model explains.** The coordinator uses the runtime's model endpoint to explain the plan from redacted facts.
 
+### Powered by Endeavor 1.0
+
+KidneyGrid uses Flower's newly released **Endeavor 1.0** (`flwrlabs/endeavor-1.0`) inside the hospitals:
+
+* **Where:** each hospital's agent on its own SuperNode calls Endeavor through that node's Flower API key
+  (`FLWR_MODEL_API_KEY`), at the moment surgeons are asked to approve a swap.
+* **What it sees:** only non-identifying facts (an incoming kidney, the sending hospital, the approval decision,
+  and whether the patient is highly sensitized). Never names, antibody profiles or records.
+* **What it writes:** a one-line briefing for that hospital's surgeon, before any identity is revealed. Real
+  output from a live SuperGrid run on Sept 29, 2026 (Bay General's agent):
+  > "The approved kidney from Valley Health is incoming for our highly sensitized patient at Bay General."
+* **Safety:** privacy-critical steps (matching, crossmatch checks, what leaves a node) are plain code, so the model
+  adds judgment and language without touching private data. If Endeavor is unavailable the agent falls back to
+  `openai/gpt-5.6-sol`; the chosen model is shown in the demo UI ("written by Endeavor 1.0 inside the hospital").
+
 ## Results
 
 | Scenario | Each hospital alone | First-come matching | KidneyGrid |
