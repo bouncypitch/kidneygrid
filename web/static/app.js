@@ -454,6 +454,7 @@ async function run(scenario) {
     status("Starting a live run on Flower's SuperGrid…");
     const src = new EventSource(`/api/live/${scenario}`);
     state.source = src;
+    setButtons();
     src.onmessage = (m) => {
       const ev = JSON.parse(m.data);
       if (ev.type === "stream_end") src.close();
