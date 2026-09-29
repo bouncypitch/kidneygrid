@@ -20,7 +20,7 @@ packages = ["kidneygrid"]
 publisher = "kdotmahesh"
 fab-format-version = 1
 flwr-version-target = "1.39.0"
-fab-include = ["kidneygrid/**/*.py", "kidneygrid/data/*.json", "LICENSE"]
+fab-include = ["kidneygrid/**/*.py", "kidneygrid/data/*.json", "LICENSE", "README.md"]
 
 [tool.flwr.app.components]
 agentapp = "kidneygrid.agent_app:app"
