@@ -25,7 +25,7 @@ const DELAY = {
   cycle_rejected_long: 2400, plan_siloed: 1300, plan_naive: 2000, plan_optimal: 2200,
   approval_requested: 1400, rejected: 2600, replanned: 1200, confirmed: 1200, reveal: 1200,
   injection_blocked: 1800, narrative: 400, done: 0, courier: 200,
-  schedule_requested: 1200, schedule_proposed: 1800, booking_declined: 2600, schedule_confirmed: 1600, transport_booked: 1800,
+  briefing: 2600, schedule_requested: 1200, schedule_proposed: 1800, booking_declined: 2600, schedule_confirmed: 1600, transport_booked: 1800,
 };
 
 const el = (tag, attrs = {}, parent = svg) => {
@@ -377,6 +377,11 @@ const handlers = {
   injection_blocked: (e) => {
     banner(`🛡 Attack refused by ${hname(e.reply.hospital)}: "${e.reply.error}". No data returned.`, "shield", 3200);
     status("Privacy is enforced in code, not by a prompt: the hospital agent only answers four message types.");
+  },
+  briefing: (e) => {
+    const label = { "flwrlabs/endeavor-1.0": "Endeavor 1.0", template: "" }[e.model] ?? e.model;
+    status(`${hshort(e.hospital)} surgeon briefing: “${e.text}”`);
+    if (label) $("#status").insertAdjacentHTML("beforeend", ` <span class="model-tag">written by ${label} inside the hospital</span>`);
   },
   narrative: (e) => {
     const label = { "flwrlabs/endeavor-1.0": "Endeavor 1.0", template: "" }[e.model] ?? e.model;

@@ -90,6 +90,9 @@ class Coordinator:
             legs = graph.legs(plan["optimal"])
             self.emit("approval_requested", {"legs": legs, "attempt": attempt + 1})
             decisions = self._round(CONFIRM, [(n, {"type": CONFIRM, "salt": salt, "legs": legs, "scenario": scenario}) for n in nodes])
+            for n, reply in decisions.items():
+                if reply.get("briefing"):
+                    self.emit("briefing", {"hospital": hospitals.get(n), "text": reply["briefing"], "model": reply.get("briefing_model")})
             rejected = [d for reply in decisions.values() for d in reply.get("decisions", []) if not d["approved"]]
             if not rejected:
                 self.emit("confirmed", {"legs": legs})

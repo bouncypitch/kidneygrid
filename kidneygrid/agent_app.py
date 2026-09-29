@@ -60,30 +60,37 @@ def _model_client() -> OpenAI | None:
     return OpenAI(base_url=os.environ["FLWR_RUNTIME_BASE_URL"], api_key=os.environ["FLWR_RUNTIME_API_KEY"], max_retries=0)
 
 
-def _narrator(models: list[str]):
+COORDINATOR_INSTRUCTIONS = (
+    "You are the KidneyGrid exchange coordinator. In 2-3 warm, plain sentences, explain the result to transplant "
+    "surgeons. Use only the facts given. Mention that patient records never left their hospitals.")
+
+
+def _narrator(models: list[str], instructions: str = COORDINATOR_INSTRUCTIONS):
     client = _model_client()
 
     def narrate(facts: dict) -> tuple[str, str]:
-        """Explain the plan with the first model that answers; returns (text, model used)."""
-        c = facts["counts"]
+        """Write with the first model that answers; returns (text, model used)."""
+        c = facts.get("counts")
         fallback = (f"Each hospital alone: {c['siloed']} transplants. First-come matching: {c['naive']}. "
-                    f"KidneyGrid: {c['optimal']}, with no patient record leaving any hospital.")
+                    f"KidneyGrid: {c['optimal']}, with no patient record leaving any hospital.") if c else (
+                    "Proposed swap ready for your review.")
         if client is None:
             return fallback, "template"
         for model in models:
-            try:
-                resp = client.responses.create(
-                    model=model,
-                    instructions=("You are the KidneyGrid exchange coordinator. In 2-3 warm, plain sentences, explain "
-                                  "the result to transplant surgeons. Use only the facts given. Mention that patient "
-                                  "records never left their hospitals."),
-                    input=json.dumps(facts),
-                    max_output_tokens=200,
-                )
-                if resp.output_text.strip():
-                    return resp.output_text.strip(), model
-            except Exception as exc:  # Try the next model; the explanation is optional, the result is not.
-                print(f"[narrator] {model} unavailable: {type(exc).__name__}", flush=True)
+            for _attempt in range(2):  # Preview endpoints can fail transiently; retry once before falling back.
+                try:
+                    resp = client.responses.create(
+                        model=model,
+                        instructions=instructions,
+                        input=json.dumps(facts),
+                        max_output_tokens=1200,  # Reasoning models spend part of the budget thinking.
+                        reasoning={"effort": "low"},
+                    )
+                    text = resp.output_text.strip()
+                    if len(text) >= 20:  # Reject truncated fragments.
+                        return text, model
+                except Exception as exc:  # The explanation is optional; the exchange result is not.
+                    print(f"[narrator] {model} unavailable: {type(exc).__name__}", flush=True)
         return fallback, "template"
 
     return narrate
@@ -128,7 +135,27 @@ def _run_hospital(agent: AgentSession, context: Context) -> None:
         reply = {"error": "no local hospital records configured on this node"}
     else:
         reply = make_agent(hospital_id, record).handle(message)
+        if message.get("type") == "CONFIRM" and reply.get("decisions"):
+            reply["briefing"], reply["briefing_model"] = _surgeon_briefing(context, record, reply["decisions"])
     _grid_call(agent, "push_reply_message", {"payload": json.dumps(reply)})
+
+
+def _surgeon_briefing(context: Context, record: dict, decisions: list[dict]) -> tuple[str, str]:
+    """This hospital's model writes a short note for its own surgeon, from non-identifying facts only."""
+    patient = record["pairs"][0]["patient"]
+    facts = {
+        "hospital": record["display_name"],
+        "patient_highly_sensitized": patient["cpra"] >= 80,
+        "incoming_kidneys": [
+            {"from_hospital": d.get("from_hospital"), "decision": d["category"]} for d in decisions
+        ],
+    }
+    cfg = context.run_config
+    models = [str(cfg.get("model", "flwrlabs/endeavor-1.0")), str(cfg.get("fallback-model", "openai/gpt-5.6-sol"))]
+    narrate = _narrator(models, instructions=(
+        "You are the transplant coordinator agent inside this hospital. Write ONE short sentence (max 30 words) "
+        "briefing the surgeon on the proposed kidney swap, using only the facts given. No names."))
+    return narrate(facts)
 
 
 @app.main()
