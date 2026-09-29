@@ -60,27 +60,31 @@ def _model_client() -> OpenAI | None:
     return OpenAI(base_url=os.environ["FLWR_RUNTIME_BASE_URL"], api_key=os.environ["FLWR_RUNTIME_API_KEY"], max_retries=0)
 
 
-def _narrator(model: str):
+def _narrator(models: list[str]):
     client = _model_client()
 
-    def narrate(facts: dict) -> str:
+    def narrate(facts: dict) -> tuple[str, str]:
+        """Explain the plan with the first model that answers; returns (text, model used)."""
         c = facts["counts"]
         fallback = (f"Each hospital alone: {c['siloed']} transplants. First-come matching: {c['naive']}. "
                     f"KidneyGrid: {c['optimal']}, with no patient record leaving any hospital.")
         if client is None:
-            return fallback
-        try:
-            resp = client.responses.create(
-                model=model,
-                instructions=("You are the KidneyGrid exchange coordinator. In 2-3 warm, plain sentences, explain the "
-                              "result to transplant surgeons. Use only the facts given. Mention that patient records "
-                              "never left their hospitals."),
-                input=json.dumps(facts),
-                max_output_tokens=200,
-            )
-            return resp.output_text.strip() or fallback
-        except Exception:  # The explanation is optional; the exchange result is not.
-            return fallback
+            return fallback, "template"
+        for model in models:
+            try:
+                resp = client.responses.create(
+                    model=model,
+                    instructions=("You are the KidneyGrid exchange coordinator. In 2-3 warm, plain sentences, explain "
+                                  "the result to transplant surgeons. Use only the facts given. Mention that patient "
+                                  "records never left their hospitals."),
+                    input=json.dumps(facts),
+                    max_output_tokens=200,
+                )
+                if resp.output_text.strip():
+                    return resp.output_text.strip(), model
+            except Exception as exc:  # Try the next model; the explanation is optional, the result is not.
+                print(f"[narrator] {model} unavailable: {type(exc).__name__}", flush=True)
+        return fallback, "template"
 
     return narrate
 
@@ -104,7 +108,8 @@ def _run_coordinator(agent: AgentSession, context: Context) -> None:
     scenario = "surgeon-reject" if ("reject" in prompt or cfg.get("reject-edge")) else ""
     if "cancel" in prompt:
         action, scenario = "confirm", "or-cancel"
-    coord = Coordinator(GridTransport(agent), _emitter(agent), _narrator(str(cfg.get("model", "openai/gpt-5.6-sol"))))
+    models = [str(cfg.get("model", "flwrlabs/endeavor-1.0")), str(cfg.get("fallback-model", "openai/gpt-5.6-sol"))]
+    coord = Coordinator(GridTransport(agent), _emitter(agent), _narrator(models))
     result = coord.run(action=action, scenario=scenario)
     agent.events.emit({"type": "message", "role": "assistant", "content": result.get("narrative", json.dumps(result))})
 

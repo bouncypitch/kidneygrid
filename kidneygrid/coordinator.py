@@ -167,8 +167,9 @@ class Coordinator:
     def _finish(self, action: str, plan: dict, started: float, people: dict | None = None) -> dict:
         result = {"action": action, "counts": plan["counts"], "seconds": round(time.time() - started, 2)}
         if self.narrate:
-            result["narrative"] = self.narrate({"counts": plan["counts"], "people": people or {}})
-            self.emit("narrative", {"text": result["narrative"]})
+            text, model = self.narrate({"counts": plan["counts"], "people": people or {}})
+            result["narrative"], result["model"] = text, model
+            self.emit("narrative", {"text": text, "model": model})
         self.emit("done", result)
         return result
 

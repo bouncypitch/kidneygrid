@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "kidneygrid"
-version = "0.2.0"
+version = "0.2.1"
 description = "Privacy-preserving kidney paired exchange across hospitals with collaborative Flower Agents"
 license = { file = "LICENSE" }
 requires-python = ">=3.11,<4.0"
@@ -28,4 +28,5 @@ agentapp = "kidneygrid.agent_app:app"
 [tool.flwr.app.config]
 action = "match"
 reject-edge = ""
-model = "openai/gpt-5.6-sol"
+model = "flwrlabs/endeavor-1.0"
+fallback-model = "openai/gpt-5.6-sol"

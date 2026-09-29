@@ -376,7 +376,11 @@ const handlers = {
     banner(`🛡 Attack refused by ${hname(e.reply.hospital)}: "${e.reply.error}". No data returned.`, "shield", 3200);
     status("Privacy is enforced in code, not by a prompt: the hospital agent only answers four message types.");
   },
-  narrative: (e) => status(e.text),
+  narrative: (e) => {
+    const label = { "flwrlabs/endeavor-1.0": "Endeavor 1.0", template: "" }[e.model] ?? e.model;
+    status(e.text);
+    if (label) $("#status").insertAdjacentHTML("beforeend", ` <span class="model-tag">explained by ${label}</span>`);
+  },
   error: (e) => { status("Error: " + (typeof e.detail === "string" ? e.detail : JSON.stringify(e.detail)).slice(0, 160)); },
   done: () => { state.busy = false; setButtons(); },
   stream_end: () => { state.busy = false; setButtons(); },
