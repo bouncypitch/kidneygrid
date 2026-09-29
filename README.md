@@ -28,8 +28,16 @@ Coordinator AgentApp (SuperLink)                 Hospital AgentApp (one SuperNod
  3. push CHECK (all tokens) ───────────────────▶ virtual crossmatch vs. OWN patients' antibodies → yes/no only
  4. anonymous graph → best loops (≤3-way, sensitized priority) vs. first-come baseline
  5. push CONFIRM ──────────────────────────────▶ surgeon approves / declines (category only; reason stays local)
- 6. re-plan if declined → push REVEAL ─────────▶ identities released only for approved legs
+ 6. re-plan if declined
+ 7. push SCHEDULE ─────────────────────────────▶ which candidate days fit the PRIVATE OR/bed calendar
+ 8. push BOOK ─────────────────────────────────▶ reserve ORs; a local emergency can decline → re-plan the loop
+ 9. push TRANSPORT ──▶ Courier AgentApp (its own SuperNode): cold-chain van per kidney (hospitals + day only)
+10. push REVEAL ───────────────────────────────▶ identities released only for approved legs
 ```
+
+**Transplant Day.** Every surgery in a loop must happen the same day, so hospitals agree a date from private
+calendars, re-plan the whole loop when an operating room is lost, and a courier company — a different kind of
+organization on the same federation — books transport for each kidney without seeing any patient data.
 
 * **One AgentApp, two roles.** The same FAB runs on the SuperLink and on every SuperNode; the role is picked
   from the Grid tools the runtime exposes (`get_nodes/push_messages/pull_messages` vs. `push_reply_message`).
@@ -59,11 +67,13 @@ uv run uvicorn web.server:app --port 8765      # demo UI at http://127.0.0.1:876
 ```
 
 Local runs need `[superlink.local-agent]` (address `127.0.0.1:8000`, `insecure = true`) in `~/.flwr/config.toml`.
-On SuperGrid: `uv run flwr login supergrid`, then set `KIDNEYGRID_SUPERLINK=supergrid` and
+On SuperGrid: `uv run flwr login supergrid`, register one SuperNode per organization
+(`flwr supernode register keys/<id>.pub supergrid --name ... --location ...`), add them to a deployment federation,
+start them with `scripts/supergrid_nodes.sh`, then set `KIDNEYGRID_SUPERLINK=supergrid` and
 `KIDNEYGRID_FEDERATION=@<account>/<federation>` for the web app's Live mode. Hospital nodes are started with
 `--node-config 'hospital="<id>"'`.
 
-Demo keys: `1` match · `2` approve · `3` surgeon rejects · `4` prompt-injection attack · `S` scale · `P` peek
+Demo keys: `1` match · `2` approve + Transplant Day · `3` surgeon rejects · `4` prompt-injection attack · `5` operating room cancels · `S` scale · `P` peek
 at private records · `L` toggle Live/Replay.
 
 Other scripts: `scripts/make_replay.py` (Replay-mode event logs), `scripts/benchmark.py` (scale study),
