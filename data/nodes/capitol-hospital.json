@@ -34,5 +34,14 @@
       "pair_id": "capitol-hospital-1",
       "reason": "Physical crossmatch for incoming donor came back positive; surgeon declines this leg."
     }
+  },
+  "role": "hospital",
+  "calendar": {
+    "days": [
+      "2026-10-05",
+      "2026-10-07",
+      "2026-10-09"
+    ],
+    "or_slots": 2
   }
 }

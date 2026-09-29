@@ -1,0 +1,24 @@
+{
+  "hospital": "golden-gate-courier",
+  "role": "courier",
+  "display_name": "Golden Gate Medical Courier",
+  "vehicles": [
+    "Cold-chain van 1",
+    "Cold-chain van 2",
+    "Cold-chain van 3"
+  ],
+  "max_transport_hours": 6,
+  "pickup_time": "08:30",
+  "drive_minutes": {
+    "bay-general|mission-medical": 25,
+    "bay-general|valley-health": 70,
+    "bay-general|peninsula-medical": 45,
+    "bay-general|capitol-hospital": 110,
+    "mission-medical|valley-health": 60,
+    "mission-medical|peninsula-medical": 45,
+    "mission-medical|capitol-hospital": 90,
+    "valley-health|peninsula-medical": 30,
+    "valley-health|capitol-hospital": 140,
+    "peninsula-medical|capitol-hospital": 125
+  }
+}

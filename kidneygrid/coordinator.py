@@ -10,7 +10,9 @@ import time
 from collections.abc import Callable
 from typing import Protocol
 
-from kidneygrid.exchange import CHECK, CONFIRM, REGISTER, REVEAL, ExchangeGraph, plan_exchange
+from kidneygrid.exchange import BOOK, CHECK, CONFIRM, REGISTER, REVEAL, SCHEDULE, TRANSPORT, ExchangeGraph, plan_exchange
+
+SURGERY_DAYS = ["2026-10-05", "2026-10-06", "2026-10-07", "2026-10-08", "2026-10-09"]
 
 Emit = Callable[[str, dict], None]
 
@@ -58,7 +60,11 @@ class Coordinator:
             return result
 
         regs = self._round(REGISTER, [(n, {"type": REGISTER, "salt": salt}) for n in nodes])
+        couriers = [n for n, r in regs.items() if r.get("role") == "courier"]
+        nodes = [n for n in nodes if n not in couriers and "error" not in regs[n]]
+        regs = {n: regs[n] for n in nodes}
         hospitals = {node: reg["hospital"] for node, reg in regs.items()}
+        self.names = {r["hospital"]: r["display_name"] for r in regs.values()}
         self.emit("hospitals", {"hospitals": [
             {"node": n, "id": r["hospital"], "name": r["display_name"], "pairs": len(r["pairs"])} for n, r in regs.items()
         ]})
@@ -90,16 +96,63 @@ class Coordinator:
                 excluded.add((graph.by_donor[d["donor_token"]], d["patient_token"]))
                 self.emit("rejected", {"leg": d, "hospital": hospitals.get(next(
                     (n for n, r in decisions.items() if d in r.get("decisions", [])), ""), "")})
-            scenario = ""  # A hold applies to the original proposal only.
+            scenario = "" if scenario == "surgeon-reject" else scenario  # A hold applies to the first proposal only.
             plan = plan_exchange(graph, excluded)
             self.emit("replanned", {"excluded": [list(e) for e in excluded], "counts": plan["counts"]})
             self._emit_plan(graph, plan)
 
+        self._transplant_day(graph, plan["optimal"], hospitals, couriers, scenario)
         legs = graph.legs(plan["optimal"])
         reveals = self._round(REVEAL, [(n, {"type": REVEAL, "salt": salt, "legs": legs}) for n in nodes])
         people = {p["patient_token"]: {**p, "hospital": r["hospital"]} for r in reveals.values() for p in r["people"]}
         self.emit("reveal", {"legs": legs, "people": people})
         return self._finish(action, plan, started, people)
+
+    def _transplant_day(self, graph: ExchangeGraph, cycles: list, hospitals: dict, couriers: list, scenario: str) -> None:
+        """Agree one surgery day per loop (all surgeries in a loop run together), then book kidney transport."""
+        if not cycles:
+            return
+        node_of = {h: n for n, h in hospitals.items()}
+        requests: dict[str, list[dict]] = {}
+        for i, cyc in enumerate(cycles):
+            per_hospital: dict[str, int] = {}
+            for pair in cyc:
+                per_hospital[graph.owner[pair]] = per_hospital.get(graph.owner[pair], 0) + 1
+            for h, count in per_hospital.items():
+                requests.setdefault(node_of[h], []).append({"cycle": i, "pairs": count, "days": SURGERY_DAYS})
+        self.emit("schedule_requested", {"cycles": len(cycles), "days": SURGERY_DAYS})
+        avail = self._round(SCHEDULE, [(n, {"type": SCHEDULE, "requests": r}) for n, r in requests.items()])
+
+        blocked: set[tuple[int, str]] = set()
+        chosen: dict[int, str] = {}
+        for _ in range(3):
+            chosen = {}
+            for i in range(len(cycles)):
+                sets = [set(a["days"]) for reply in avail.values() for a in reply.get("availability", []) if a["cycle"] == i]
+                common = sorted(set.intersection(*sets) - {d for c, d in blocked if c == i}) if sets else []
+                if common:
+                    chosen[i] = common[0]
+            self.emit("schedule_proposed", {"days": {str(i): d for i, d in chosen.items()},
+                                            "hospitals": {str(i): sorted({graph.owner[p] for p in cycles[i]}) for i in chosen}})
+            books = self._round(BOOK, [(n, {"type": BOOK, "scenario": scenario,
+                                            "bookings": [{"cycle": r["cycle"], "day": chosen[r["cycle"]]} for r in reqs if r["cycle"] in chosen]})
+                                       for n, reqs in requests.items()])
+            declined = [(hospitals[n], r) for n, reply in books.items() for r in reply.get("results", []) if not r["booked"]]
+            if not declined:
+                break
+            for hospital, r in declined:
+                blocked.add((r["cycle"], r["day"]))
+                self.emit("booking_declined", {"hospital": hospital, "cycle": r["cycle"], "day": r["day"], "category": r["category"]})
+            scenario = ""  # An emergency takes one day; re-planning books around it.
+        self.emit("schedule_confirmed", {"days": {str(i): d for i, d in chosen.items()}})
+
+        if not couriers:
+            return
+        legs = [{**leg, "day": chosen.get(i)} for i, cyc in enumerate(cycles) for leg in graph.legs([cyc])]
+        courier = couriers[0]
+        reply = self._round(TRANSPORT, [(courier, {"type": TRANSPORT, "legs": [
+            {"from_hospital": l["from_hospital"], "to_hospital": l["to_hospital"], "day": l["day"]} for l in legs]})])[courier]
+        self.emit("transport_booked", {"courier": reply.get("hospital"), "bookings": reply.get("bookings", [])})
 
     def _emit_plan(self, graph: ExchangeGraph, plan: dict) -> None:
         for cyc in plan["too_long"]:

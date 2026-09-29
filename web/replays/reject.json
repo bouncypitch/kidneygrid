@@ -6,9 +6,10 @@
    "1015838",
    "1023757",
    "1031676",
-   "1039595"
+   "1039595",
+   "9990001"
   ],
-  "count": 5
+  "count": 6
  },
  {
   "type": "msg_sent",
@@ -61,12 +62,23 @@
   }
  },
  {
+  "type": "msg_sent",
+  "round": "REGISTER",
+  "to": "9990001",
+  "bytes": 33,
+  "payload": {
+   "type": "REGISTER",
+   "salt": "demo"
+  }
+ },
+ {
   "type": "msg_received",
   "round": "REGISTER",
   "from": "1007919",
-  "bytes": 235,
+  "bytes": 253,
   "payload": {
    "hospital": "bay-general",
+   "role": "hospital",
    "display_name": "Bay General Hospital",
    "arrival": 4,
    "pairs": [
@@ -91,9 +103,10 @@
   "type": "msg_received",
   "round": "REGISTER",
   "from": "1015838",
-  "bytes": 243,
+  "bytes": 261,
   "payload": {
    "hospital": "mission-medical",
+   "role": "hospital",
    "display_name": "Mission Medical Center",
    "arrival": 1,
    "pairs": [
@@ -118,9 +131,10 @@
   "type": "msg_received",
   "round": "REGISTER",
   "from": "1023757",
-  "bytes": 236,
+  "bytes": 254,
   "payload": {
    "hospital": "valley-health",
+   "role": "hospital",
    "display_name": "Valley Health",
    "arrival": 2,
    "pairs": [
@@ -145,9 +159,10 @@
   "type": "msg_received",
   "round": "REGISTER",
   "from": "1031676",
-  "bytes": 241,
+  "bytes": 259,
   "payload": {
    "hospital": "peninsula-medical",
+   "role": "hospital",
    "display_name": "Peninsula Medical",
    "arrival": 3,
    "pairs": [
@@ -172,9 +187,10 @@
   "type": "msg_received",
   "round": "REGISTER",
   "from": "1039595",
-  "bytes": 239,
+  "bytes": 257,
   "payload": {
    "hospital": "capitol-hospital",
+   "role": "hospital",
    "display_name": "Capitol Hospital",
    "arrival": 5,
    "pairs": [
@@ -193,6 +209,18 @@
      "patient_sensitization": "low"
     }
    ]
+  }
+ },
+ {
+  "type": "msg_received",
+  "round": "REGISTER",
+  "from": "9990001",
+  "bytes": 107,
+  "payload": {
+   "hospital": "golden-gate-courier",
+   "role": "courier",
+   "display_name": "Golden Gate Medical Courier",
+   "pairs": []
   }
  },
  {
@@ -1576,6 +1604,361 @@
     "patient_token": "P-56b2be",
     "from_hospital": "bay-general",
     "to_hospital": "mission-medical"
+   }
+  ]
+ },
+ {
+  "type": "schedule_requested",
+  "cycles": 1,
+  "days": [
+   "2026-10-05",
+   "2026-10-06",
+   "2026-10-07",
+   "2026-10-08",
+   "2026-10-09"
+  ]
+ },
+ {
+  "type": "msg_sent",
+  "round": "SCHEDULE",
+  "to": "1015838",
+  "bytes": 128,
+  "payload": {
+   "type": "SCHEDULE",
+   "requests": [
+    {
+     "cycle": 0,
+     "pairs": 1,
+     "days": [
+      "2026-10-05",
+      "2026-10-06",
+      "2026-10-07",
+      "2026-10-08",
+      "2026-10-09"
+     ]
+    }
+   ]
+  }
+ },
+ {
+  "type": "msg_sent",
+  "round": "SCHEDULE",
+  "to": "1023757",
+  "bytes": 128,
+  "payload": {
+   "type": "SCHEDULE",
+   "requests": [
+    {
+     "cycle": 0,
+     "pairs": 1,
+     "days": [
+      "2026-10-05",
+      "2026-10-06",
+      "2026-10-07",
+      "2026-10-08",
+      "2026-10-09"
+     ]
+    }
+   ]
+  }
+ },
+ {
+  "type": "msg_sent",
+  "round": "SCHEDULE",
+  "to": "1007919",
+  "bytes": 128,
+  "payload": {
+   "type": "SCHEDULE",
+   "requests": [
+    {
+     "cycle": 0,
+     "pairs": 1,
+     "days": [
+      "2026-10-05",
+      "2026-10-06",
+      "2026-10-07",
+      "2026-10-08",
+      "2026-10-09"
+     ]
+    }
+   ]
+  }
+ },
+ {
+  "type": "msg_received",
+  "round": "SCHEDULE",
+  "from": "1015838",
+  "bytes": 107,
+  "payload": {
+   "hospital": "mission-medical",
+   "availability": [
+    {
+     "cycle": 0,
+     "days": [
+      "2026-10-05",
+      "2026-10-06",
+      "2026-10-08"
+     ]
+    }
+   ]
+  }
+ },
+ {
+  "type": "msg_received",
+  "round": "SCHEDULE",
+  "from": "1023757",
+  "bytes": 105,
+  "payload": {
+   "hospital": "valley-health",
+   "availability": [
+    {
+     "cycle": 0,
+     "days": [
+      "2026-10-06",
+      "2026-10-08",
+      "2026-10-09"
+     ]
+    }
+   ]
+  }
+ },
+ {
+  "type": "msg_received",
+  "round": "SCHEDULE",
+  "from": "1007919",
+  "bytes": 103,
+  "payload": {
+   "hospital": "bay-general",
+   "availability": [
+    {
+     "cycle": 0,
+     "days": [
+      "2026-10-06",
+      "2026-10-07",
+      "2026-10-08"
+     ]
+    }
+   ]
+  }
+ },
+ {
+  "type": "schedule_proposed",
+  "days": {
+   "0": "2026-10-06"
+  },
+  "hospitals": {
+   "0": [
+    "bay-general",
+    "mission-medical",
+    "valley-health"
+   ]
+  }
+ },
+ {
+  "type": "msg_sent",
+  "round": "BOOK",
+  "to": "1015838",
+  "bytes": 73,
+  "payload": {
+   "type": "BOOK",
+   "scenario": "",
+   "bookings": [
+    {
+     "cycle": 0,
+     "day": "2026-10-06"
+    }
+   ]
+  }
+ },
+ {
+  "type": "msg_sent",
+  "round": "BOOK",
+  "to": "1023757",
+  "bytes": 73,
+  "payload": {
+   "type": "BOOK",
+   "scenario": "",
+   "bookings": [
+    {
+     "cycle": 0,
+     "day": "2026-10-06"
+    }
+   ]
+  }
+ },
+ {
+  "type": "msg_sent",
+  "round": "BOOK",
+  "to": "1007919",
+  "bytes": 73,
+  "payload": {
+   "type": "BOOK",
+   "scenario": "",
+   "bookings": [
+    {
+     "cycle": 0,
+     "day": "2026-10-06"
+    }
+   ]
+  }
+ },
+ {
+  "type": "msg_received",
+  "round": "BOOK",
+  "from": "1015838",
+  "bytes": 107,
+  "payload": {
+   "hospital": "mission-medical",
+   "results": [
+    {
+     "cycle": 0,
+     "day": "2026-10-06",
+     "booked": true,
+     "category": "booked"
+    }
+   ]
+  }
+ },
+ {
+  "type": "msg_received",
+  "round": "BOOK",
+  "from": "1023757",
+  "bytes": 105,
+  "payload": {
+   "hospital": "valley-health",
+   "results": [
+    {
+     "cycle": 0,
+     "day": "2026-10-06",
+     "booked": true,
+     "category": "booked"
+    }
+   ]
+  }
+ },
+ {
+  "type": "msg_received",
+  "round": "BOOK",
+  "from": "1007919",
+  "bytes": 103,
+  "payload": {
+   "hospital": "bay-general",
+   "results": [
+    {
+     "cycle": 0,
+     "day": "2026-10-06",
+     "booked": true,
+     "category": "booked"
+    }
+   ]
+  }
+ },
+ {
+  "type": "schedule_confirmed",
+  "days": {
+   "0": "2026-10-06"
+  }
+ },
+ {
+  "type": "msg_sent",
+  "round": "TRANSPORT",
+  "to": "9990001",
+  "bytes": 278,
+  "payload": {
+   "type": "TRANSPORT",
+   "legs": [
+    {
+     "from_hospital": "mission-medical",
+     "to_hospital": "valley-health",
+     "day": "2026-10-06"
+    },
+    {
+     "from_hospital": "valley-health",
+     "to_hospital": "bay-general",
+     "day": "2026-10-06"
+    },
+    {
+     "from_hospital": "bay-general",
+     "to_hospital": "mission-medical",
+     "day": "2026-10-06"
+    }
+   ]
+  }
+ },
+ {
+  "type": "msg_received",
+  "round": "TRANSPORT",
+  "from": "9990001",
+  "bytes": 572,
+  "payload": {
+   "hospital": "golden-gate-courier",
+   "bookings": [
+    {
+     "from_hospital": "mission-medical",
+     "to_hospital": "valley-health",
+     "day": "2026-10-06",
+     "booked": true,
+     "vehicle": "Cold-chain van 1",
+     "pickup": "08:30",
+     "delivery": "09:30",
+     "minutes": 60
+    },
+    {
+     "from_hospital": "valley-health",
+     "to_hospital": "bay-general",
+     "day": "2026-10-06",
+     "booked": true,
+     "vehicle": "Cold-chain van 2",
+     "pickup": "08:30",
+     "delivery": "09:40",
+     "minutes": 70
+    },
+    {
+     "from_hospital": "bay-general",
+     "to_hospital": "mission-medical",
+     "day": "2026-10-06",
+     "booked": true,
+     "vehicle": "Cold-chain van 3",
+     "pickup": "08:30",
+     "delivery": "08:55",
+     "minutes": 25
+    }
+   ]
+  }
+ },
+ {
+  "type": "transport_booked",
+  "courier": "golden-gate-courier",
+  "bookings": [
+   {
+    "from_hospital": "mission-medical",
+    "to_hospital": "valley-health",
+    "day": "2026-10-06",
+    "booked": true,
+    "vehicle": "Cold-chain van 1",
+    "pickup": "08:30",
+    "delivery": "09:30",
+    "minutes": 60
+   },
+   {
+    "from_hospital": "valley-health",
+    "to_hospital": "bay-general",
+    "day": "2026-10-06",
+    "booked": true,
+    "vehicle": "Cold-chain van 2",
+    "pickup": "08:30",
+    "delivery": "09:40",
+    "minutes": 70
+   },
+   {
+    "from_hospital": "bay-general",
+    "to_hospital": "mission-medical",
+    "day": "2026-10-06",
+    "booked": true,
+    "vehicle": "Cold-chain van 3",
+    "pickup": "08:30",
+    "delivery": "08:55",
+    "minutes": 25
    }
   ]
  },

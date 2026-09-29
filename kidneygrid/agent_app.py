@@ -14,7 +14,7 @@ from flwr.app import Context
 from openai import OpenAI
 
 from kidneygrid.coordinator import Coordinator
-from kidneygrid.exchange import HospitalAgent, load_local_records
+from kidneygrid.exchange import load_local_records, make_agent
 
 EVENT_PREFIX = "KIDNEYGRID_EVENT "
 PULL_TIMEOUT = 240
@@ -102,6 +102,8 @@ def _run_coordinator(agent: AgentSession, context: Context) -> None:
     elif "attack" in prompt or "inject" in prompt:
         action = "inject"
     scenario = "surgeon-reject" if ("reject" in prompt or cfg.get("reject-edge")) else ""
+    if "cancel" in prompt:
+        action, scenario = "confirm", "or-cancel"
     coord = Coordinator(GridTransport(agent), _emitter(agent), _narrator(str(cfg.get("model", "openai/gpt-5.6-sol"))))
     result = coord.run(action=action, scenario=scenario)
     agent.events.emit({"type": "message", "role": "assistant", "content": result.get("narrative", json.dumps(result))})
@@ -120,7 +122,7 @@ def _run_hospital(agent: AgentSession, context: Context) -> None:
     except (OSError, ValueError, KeyError):
         reply = {"error": "no local hospital records configured on this node"}
     else:
-        reply = HospitalAgent(hospital_id, record).handle(message)
+        reply = make_agent(hospital_id, record).handle(message)
     _grid_call(agent, "push_reply_message", {"payload": json.dumps(reply)})
 
 

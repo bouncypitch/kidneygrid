@@ -61,3 +61,26 @@ def test_registration_leaks_no_patient_details():
     text = str(reply)
     for secret in ["Maria", "Tom", "DR17", "cpra", "unacceptable"]:
         assert secret not in text
+
+
+def test_transplant_day_replans_around_cancelled_operating_room():
+    import json
+    from pathlib import Path
+
+    from kidneygrid.coordinator import Coordinator, LocalTransport
+    from kidneygrid.exchange import CourierAgent
+
+    agents = {hid: HospitalAgent(hid, rec) for hid, rec in load_hospitals().items()}
+    courier = json.loads((Path(__file__).resolve().parent.parent / "data" / "nodes" / "golden-gate-courier.json").read_text())
+    agents["courier"] = CourierAgent(courier.pop("hospital"), courier)
+    events = []
+    Coordinator(LocalTransport(agents), lambda k, d: events.append({"type": k, **d})).run("confirm", "or-cancel", salt=SALT)
+    kinds = [e["type"] for e in events]
+    assert "booking_declined" in kinds
+    final = next(e for e in events if e["type"] == "schedule_confirmed")["days"]
+    assert final == {"0": "2026-10-08", "1": "2026-10-07"}
+    bookings = next(e for e in events if e["type"] == "transport_booked")["bookings"]
+    assert len(bookings) == 5 and all(b["booked"] for b in bookings)
+    # The courier never receives patient data: only hospital ids and days.
+    sent = [e["payload"] for e in events if e["type"] == "msg_sent" and e["round"] == "TRANSPORT"]
+    assert all(set(leg) == {"from_hospital", "to_hospital", "day"} for p in sent for leg in p["legs"])

@@ -6,9 +6,10 @@
    "1015838",
    "1023757",
    "1031676",
-   "1039595"
+   "1039595",
+   "9990001"
   ],
-  "count": 5
+  "count": 6
  },
  {
   "type": "msg_sent",
@@ -61,12 +62,23 @@
   }
  },
  {
+  "type": "msg_sent",
+  "round": "REGISTER",
+  "to": "9990001",
+  "bytes": 33,
+  "payload": {
+   "type": "REGISTER",
+   "salt": "demo"
+  }
+ },
+ {
   "type": "msg_received",
   "round": "REGISTER",
   "from": "1007919",
-  "bytes": 235,
+  "bytes": 253,
   "payload": {
    "hospital": "bay-general",
+   "role": "hospital",
    "display_name": "Bay General Hospital",
    "arrival": 4,
    "pairs": [
@@ -91,9 +103,10 @@
   "type": "msg_received",
   "round": "REGISTER",
   "from": "1015838",
-  "bytes": 243,
+  "bytes": 261,
   "payload": {
    "hospital": "mission-medical",
+   "role": "hospital",
    "display_name": "Mission Medical Center",
    "arrival": 1,
    "pairs": [
@@ -118,9 +131,10 @@
   "type": "msg_received",
   "round": "REGISTER",
   "from": "1023757",
-  "bytes": 236,
+  "bytes": 254,
   "payload": {
    "hospital": "valley-health",
+   "role": "hospital",
    "display_name": "Valley Health",
    "arrival": 2,
    "pairs": [
@@ -145,9 +159,10 @@
   "type": "msg_received",
   "round": "REGISTER",
   "from": "1031676",
-  "bytes": 241,
+  "bytes": 259,
   "payload": {
    "hospital": "peninsula-medical",
+   "role": "hospital",
    "display_name": "Peninsula Medical",
    "arrival": 3,
    "pairs": [
@@ -172,9 +187,10 @@
   "type": "msg_received",
   "round": "REGISTER",
   "from": "1039595",
-  "bytes": 239,
+  "bytes": 257,
   "payload": {
    "hospital": "capitol-hospital",
+   "role": "hospital",
    "display_name": "Capitol Hospital",
    "arrival": 5,
    "pairs": [
@@ -193,6 +209,18 @@
      "patient_sensitization": "low"
     }
    ]
+  }
+ },
+ {
+  "type": "msg_received",
+  "round": "REGISTER",
+  "from": "9990001",
+  "bytes": 107,
+  "payload": {
+   "hospital": "golden-gate-courier",
+   "role": "courier",
+   "display_name": "Golden Gate Medical Courier",
+   "pairs": []
   }
  },
  {

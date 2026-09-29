@@ -22,7 +22,9 @@ from kidneygrid.optimizer import (
 
 # Message types a hospital node will answer. Anything else is refused.
 REGISTER, CHECK, CONFIRM, REVEAL = "REGISTER", "CHECK", "CONFIRM", "REVEAL"
-ALLOWED_TYPES = frozenset({REGISTER, CHECK, CONFIRM, REVEAL})
+SCHEDULE, BOOK, TRANSPORT = "SCHEDULE", "BOOK", "TRANSPORT"
+ALLOWED_TYPES = frozenset({REGISTER, CHECK, CONFIRM, REVEAL, SCHEDULE, BOOK})
+COURIER_TYPES = frozenset({REGISTER, TRANSPORT})
 
 
 REPO_DATA = Path(__file__).resolve().parent.parent / "data" / "hospitals.json"
@@ -76,7 +78,33 @@ class HospitalAgent:
             return self.check(salt, message.get("donors", []))
         if mtype == CONFIRM:
             return self.confirm(salt, message.get("legs", []), message.get("scenario", ""))
+        if mtype == SCHEDULE:
+            return self.schedule(message.get("requests", []))
+        if mtype == BOOK:
+            return self.book(message.get("bookings", []), message.get("scenario", ""))
         return self.reveal(salt, message.get("legs", []))
+
+    def schedule(self, requests: list[dict]) -> dict:
+        """Which candidate days work: checked against the private OR and bed calendar."""
+        cal = self.record.get("calendar", {})
+        free = set(cal.get("days", []))
+        slots = int(cal.get("or_slots", 0))
+        answers = []
+        for req in requests:
+            needed = 2 * int(req.get("pairs", 1))  # donor + recipient surgery per pair
+            days = [d for d in req.get("days", []) if d in free and slots >= needed]
+            answers.append({"cycle": req.get("cycle"), "days": days})
+        # Only the fitting candidate days leave; the full calendar never does.
+        return {"hospital": self.hospital_id, "availability": answers}
+
+    def book(self, bookings: list[dict], scenario: str) -> dict:
+        """Reserve operating rooms; a local emergency can take one back."""
+        hold = self.record.get("holds", {}).get(scenario, {})
+        results = []
+        for b in bookings:
+            lost = hold.get("day") == b.get("day")
+            results.append({**b, "booked": not lost, "category": "operating room unavailable" if lost else "booked"})
+        return {"hospital": self.hospital_id, "results": results}
 
     def register(self, salt: str) -> dict:
         pairs = []
@@ -95,6 +123,7 @@ class HospitalAgent:
             )
         return {
             "hospital": self.hospital_id,
+            "role": "hospital",
             "display_name": self.record["display_name"],
             "arrival": self.record.get("arrival", 0),
             "pairs": pairs,
@@ -153,6 +182,54 @@ class HospitalAgent:
                     }
                 )
         return {"hospital": self.hospital_id, "people": people}
+
+
+class CourierAgent:
+    """A medical courier company: plans kidney transport from its private fleet and drive times."""
+
+    def __init__(self, courier_id: str, record: dict):
+        self.courier_id = courier_id
+        self.record = record
+
+    def handle(self, message: dict) -> dict:
+        mtype = message.get("type")
+        if mtype not in COURIER_TYPES:
+            return {"hospital": self.courier_id, "error": "unsupported request"}
+        if mtype == REGISTER:
+            return {"hospital": self.courier_id, "role": "courier", "display_name": self.record["display_name"], "pairs": []}
+        return self.transport(message.get("legs", []))
+
+    def _minutes(self, a: str, b: str) -> int | None:
+        table = self.record.get("drive_minutes", {})
+        return table.get(f"{a}|{b}", table.get(f"{b}|{a}"))
+
+    def transport(self, legs: list[dict]) -> dict:
+        vehicles = self.record.get("vehicles", [])
+        limit = 60 * float(self.record.get("max_transport_hours", 6))
+        pickup_h, pickup_m = (int(x) for x in self.record.get("pickup_time", "08:30").split(":"))
+        bookings = []
+        used_per_day: dict[str, int] = {}
+        for leg in legs:
+            # Vans are free again the next day, so capacity is per surgery day.
+            i = used_per_day.get(leg.get("day"), 0)
+            used_per_day[leg.get("day")] = i + 1
+            minutes = self._minutes(leg["from_hospital"], leg["to_hospital"])
+            ok = minutes is not None and minutes <= limit and i < len(vehicles)
+            arrive = pickup_h * 60 + pickup_m + (minutes or 0)
+            bookings.append({
+                **leg,
+                "booked": ok,
+                "vehicle": vehicles[i] if ok else None,
+                "pickup": f"{pickup_h:02d}:{pickup_m:02d}",
+                "delivery": f"{arrive // 60:02d}:{arrive % 60:02d}" if ok else None,
+                "minutes": minutes,
+            })
+        return {"hospital": self.courier_id, "bookings": bookings}
+
+
+def make_agent(node_id: str, record: dict):
+    """Pick the agent for a node's local records: a hospital or a courier."""
+    return CourierAgent(node_id, record) if record.get("role") == "courier" else HospitalAgent(node_id, record)
 
 
 # ------------------------------------------------------------- coordinator side

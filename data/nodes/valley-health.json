@@ -28,5 +28,20 @@
         ]
       }
     }
-  ]
+  ],
+  "role": "hospital",
+  "calendar": {
+    "days": [
+      "2026-10-06",
+      "2026-10-08",
+      "2026-10-09"
+    ],
+    "or_slots": 2
+  },
+  "holds": {
+    "or-cancel": {
+      "day": "2026-10-06",
+      "reason": "Emergency case took the operating room"
+    }
+  }
 }

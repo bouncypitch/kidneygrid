@@ -23,6 +23,7 @@ PROMPTS = {
     "confirm": "Approve the plan and notify surgeons",
     "reject": "Approve the plan; surgeon may reject",
     "inject": "Security test: inject attack",
+    "cancel": "Approve the plan; an operating room may cancel",
 }
 
 app = FastAPI(title="KidneyGrid")

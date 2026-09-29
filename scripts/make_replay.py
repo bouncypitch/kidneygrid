@@ -8,7 +8,7 @@ import json
 from pathlib import Path
 
 from kidneygrid.coordinator import Coordinator, LocalTransport
-from kidneygrid.exchange import HospitalAgent, load_hospitals
+from kidneygrid.exchange import CourierAgent, HospitalAgent, load_hospitals
 
 OUT = Path(__file__).resolve().parent.parent / "web" / "replays"
 SCENARIOS = {
@@ -16,6 +16,7 @@ SCENARIOS = {
     "confirm": dict(action="confirm"),
     "reject": dict(action="confirm", scenario="surgeon-reject"),
     "inject": dict(action="inject"),
+    "cancel": dict(action="confirm", scenario="or-cancel"),
 }
 
 
@@ -23,6 +24,8 @@ def record(action: str, scenario: str = "") -> list[dict]:
     hospitals = load_hospitals()
     # Node ids mimic Flower's uint64 SuperNode ids.
     agents = {str(1_000_000 + i * 7919): HospitalAgent(hid, rec) for i, (hid, rec) in enumerate(hospitals.items(), 1)}
+    courier = json.loads((Path(__file__).resolve().parent.parent / "data" / "nodes" / "golden-gate-courier.json").read_text())
+    agents["9990001"] = CourierAgent(courier.pop("hospital"), courier)
     events: list[dict] = []
     Coordinator(LocalTransport(agents), lambda kind, data: events.append({"type": kind, **data})).run(
         action=action, scenario=scenario, salt="demo"
