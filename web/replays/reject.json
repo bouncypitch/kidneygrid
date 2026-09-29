@@ -1,0 +1,1871 @@
+[
+ {
+  "type": "nodes_found",
+  "nodes": [
+   "1007919",
+   "1015838",
+   "1023757",
+   "1031676",
+   "1039595"
+  ],
+  "count": 5
+ },
+ {
+  "type": "msg_sent",
+  "round": "REGISTER",
+  "to": "1007919",
+  "bytes": 33,
+  "payload": {
+   "type": "REGISTER",
+   "salt": "demo"
+  }
+ },
+ {
+  "type": "msg_sent",
+  "round": "REGISTER",
+  "to": "1015838",
+  "bytes": 33,
+  "payload": {
+   "type": "REGISTER",
+   "salt": "demo"
+  }
+ },
+ {
+  "type": "msg_sent",
+  "round": "REGISTER",
+  "to": "1023757",
+  "bytes": 33,
+  "payload": {
+   "type": "REGISTER",
+   "salt": "demo"
+  }
+ },
+ {
+  "type": "msg_sent",
+  "round": "REGISTER",
+  "to": "1031676",
+  "bytes": 33,
+  "payload": {
+   "type": "REGISTER",
+   "salt": "demo"
+  }
+ },
+ {
+  "type": "msg_sent",
+  "round": "REGISTER",
+  "to": "1039595",
+  "bytes": 33,
+  "payload": {
+   "type": "REGISTER",
+   "salt": "demo"
+  }
+ },
+ {
+  "type": "msg_received",
+  "round": "REGISTER",
+  "from": "1007919",
+  "bytes": 235,
+  "payload": {
+   "hospital": "bay-general",
+   "display_name": "Bay General Hospital",
+   "arrival": 4,
+   "pairs": [
+    {
+     "donor_token": "D-437217",
+     "patient_token": "P-d0385b",
+     "donor_abo": "A",
+     "donor_hla": [
+      "A2",
+      "A24",
+      "B7",
+      "B8",
+      "DR4",
+      "DR15"
+     ],
+     "patient_sensitization": "high"
+    }
+   ]
+  }
+ },
+ {
+  "type": "msg_received",
+  "round": "REGISTER",
+  "from": "1015838",
+  "bytes": 243,
+  "payload": {
+   "hospital": "mission-medical",
+   "display_name": "Mission Medical Center",
+   "arrival": 1,
+   "pairs": [
+    {
+     "donor_token": "D-92e4db",
+     "patient_token": "P-56b2be",
+     "donor_abo": "B",
+     "donor_hla": [
+      "A1",
+      "A3",
+      "B35",
+      "B51",
+      "DR1",
+      "DR7"
+     ],
+     "patient_sensitization": "medium"
+    }
+   ]
+  }
+ },
+ {
+  "type": "msg_received",
+  "round": "REGISTER",
+  "from": "1023757",
+  "bytes": 236,
+  "payload": {
+   "hospital": "valley-health",
+   "display_name": "Valley Health",
+   "arrival": 2,
+   "pairs": [
+    {
+     "donor_token": "D-1f54b9",
+     "patient_token": "P-b34e6d",
+     "donor_abo": "O",
+     "donor_hla": [
+      "A11",
+      "A68",
+      "B44",
+      "B57",
+      "DR11",
+      "DR13"
+     ],
+     "patient_sensitization": "medium"
+    }
+   ]
+  }
+ },
+ {
+  "type": "msg_received",
+  "round": "REGISTER",
+  "from": "1031676",
+  "bytes": 241,
+  "payload": {
+   "hospital": "peninsula-medical",
+   "display_name": "Peninsula Medical",
+   "arrival": 3,
+   "pairs": [
+    {
+     "donor_token": "D-a63839",
+     "patient_token": "P-26a50f",
+     "donor_abo": "A",
+     "donor_hla": [
+      "A2",
+      "A29",
+      "B18",
+      "B62",
+      "DR3",
+      "DR8"
+     ],
+     "patient_sensitization": "medium"
+    }
+   ]
+  }
+ },
+ {
+  "type": "msg_received",
+  "round": "REGISTER",
+  "from": "1039595",
+  "bytes": 239,
+  "payload": {
+   "hospital": "capitol-hospital",
+   "display_name": "Capitol Hospital",
+   "arrival": 5,
+   "pairs": [
+    {
+     "donor_token": "D-a4892d",
+     "patient_token": "P-548f0d",
+     "donor_abo": "AB",
+     "donor_hla": [
+      "A30",
+      "A33",
+      "B13",
+      "B58",
+      "DR9",
+      "DR12"
+     ],
+     "patient_sensitization": "low"
+    }
+   ]
+  }
+ },
+ {
+  "type": "hospitals",
+  "hospitals": [
+   {
+    "node": "1007919",
+    "id": "bay-general",
+    "name": "Bay General Hospital",
+    "pairs": 1
+   },
+   {
+    "node": "1015838",
+    "id": "mission-medical",
+    "name": "Mission Medical Center",
+    "pairs": 1
+   },
+   {
+    "node": "1023757",
+    "id": "valley-health",
+    "name": "Valley Health",
+    "pairs": 1
+   },
+   {
+    "node": "1031676",
+    "id": "peninsula-medical",
+    "name": "Peninsula Medical",
+    "pairs": 1
+   },
+   {
+    "node": "1039595",
+    "id": "capitol-hospital",
+    "name": "Capitol Hospital",
+    "pairs": 1
+   }
+  ]
+ },
+ {
+  "type": "msg_sent",
+  "round": "CHECK",
+  "to": "1007919",
+  "bytes": 800,
+  "payload": {
+   "type": "CHECK",
+   "salt": "demo",
+   "donors": [
+    {
+     "donor_token": "D-437217",
+     "patient_token": "P-d0385b",
+     "donor_abo": "A",
+     "donor_hla": [
+      "A2",
+      "A24",
+      "B7",
+      "B8",
+      "DR4",
+      "DR15"
+     ],
+     "patient_sensitization": "high"
+    },
+    {
+     "donor_token": "D-92e4db",
+     "patient_token": "P-56b2be",
+     "donor_abo": "B",
+     "donor_hla": [
+      "A1",
+      "A3",
+      "B35",
+      "B51",
+      "DR1",
+      "DR7"
+     ],
+     "patient_sensitization": "medium"
+    },
+    {
+     "donor_token": "D-1f54b9",
+     "patient_token": "P-b34e6d",
+     "donor_abo": "O",
+     "donor_hla": [
+      "A11",
+      "A68",
+      "B44",
+      "B57",
+      "DR11",
+      "DR13"
+     ],
+     "patient_sensitization": "medium"
+    },
+    {
+     "donor_token": "D-a63839",
+     "patient_token": "P-26a50f",
+     "donor_abo": "A",
+     "donor_hla": [
+      "A2",
+      "A29",
+      "B18",
+      "B62",
+      "DR3",
+      "DR8"
+     ],
+     "patient_sensitization": "medium"
+    },
+    {
+     "donor_token": "D-a4892d",
+     "patient_token": "P-548f0d",
+     "donor_abo": "AB",
+     "donor_hla": [
+      "A30",
+      "A33",
+      "B13",
+      "B58",
+      "DR9",
+      "DR12"
+     ],
+     "patient_sensitization": "low"
+    }
+   ]
+  }
+ },
+ {
+  "type": "msg_sent",
+  "round": "CHECK",
+  "to": "1015838",
+  "bytes": 800,
+  "payload": {
+   "type": "CHECK",
+   "salt": "demo",
+   "donors": [
+    {
+     "donor_token": "D-437217",
+     "patient_token": "P-d0385b",
+     "donor_abo": "A",
+     "donor_hla": [
+      "A2",
+      "A24",
+      "B7",
+      "B8",
+      "DR4",
+      "DR15"
+     ],
+     "patient_sensitization": "high"
+    },
+    {
+     "donor_token": "D-92e4db",
+     "patient_token": "P-56b2be",
+     "donor_abo": "B",
+     "donor_hla": [
+      "A1",
+      "A3",
+      "B35",
+      "B51",
+      "DR1",
+      "DR7"
+     ],
+     "patient_sensitization": "medium"
+    },
+    {
+     "donor_token": "D-1f54b9",
+     "patient_token": "P-b34e6d",
+     "donor_abo": "O",
+     "donor_hla": [
+      "A11",
+      "A68",
+      "B44",
+      "B57",
+      "DR11",
+      "DR13"
+     ],
+     "patient_sensitization": "medium"
+    },
+    {
+     "donor_token": "D-a63839",
+     "patient_token": "P-26a50f",
+     "donor_abo": "A",
+     "donor_hla": [
+      "A2",
+      "A29",
+      "B18",
+      "B62",
+      "DR3",
+      "DR8"
+     ],
+     "patient_sensitization": "medium"
+    },
+    {
+     "donor_token": "D-a4892d",
+     "patient_token": "P-548f0d",
+     "donor_abo": "AB",
+     "donor_hla": [
+      "A30",
+      "A33",
+      "B13",
+      "B58",
+      "DR9",
+      "DR12"
+     ],
+     "patient_sensitization": "low"
+    }
+   ]
+  }
+ },
+ {
+  "type": "msg_sent",
+  "round": "CHECK",
+  "to": "1023757",
+  "bytes": 800,
+  "payload": {
+   "type": "CHECK",
+   "salt": "demo",
+   "donors": [
+    {
+     "donor_token": "D-437217",
+     "patient_token": "P-d0385b",
+     "donor_abo": "A",
+     "donor_hla": [
+      "A2",
+      "A24",
+      "B7",
+      "B8",
+      "DR4",
+      "DR15"
+     ],
+     "patient_sensitization": "high"
+    },
+    {
+     "donor_token": "D-92e4db",
+     "patient_token": "P-56b2be",
+     "donor_abo": "B",
+     "donor_hla": [
+      "A1",
+      "A3",
+      "B35",
+      "B51",
+      "DR1",
+      "DR7"
+     ],
+     "patient_sensitization": "medium"
+    },
+    {
+     "donor_token": "D-1f54b9",
+     "patient_token": "P-b34e6d",
+     "donor_abo": "O",
+     "donor_hla": [
+      "A11",
+      "A68",
+      "B44",
+      "B57",
+      "DR11",
+      "DR13"
+     ],
+     "patient_sensitization": "medium"
+    },
+    {
+     "donor_token": "D-a63839",
+     "patient_token": "P-26a50f",
+     "donor_abo": "A",
+     "donor_hla": [
+      "A2",
+      "A29",
+      "B18",
+      "B62",
+      "DR3",
+      "DR8"
+     ],
+     "patient_sensitization": "medium"
+    },
+    {
+     "donor_token": "D-a4892d",
+     "patient_token": "P-548f0d",
+     "donor_abo": "AB",
+     "donor_hla": [
+      "A30",
+      "A33",
+      "B13",
+      "B58",
+      "DR9",
+      "DR12"
+     ],
+     "patient_sensitization": "low"
+    }
+   ]
+  }
+ },
+ {
+  "type": "msg_sent",
+  "round": "CHECK",
+  "to": "1031676",
+  "bytes": 800,
+  "payload": {
+   "type": "CHECK",
+   "salt": "demo",
+   "donors": [
+    {
+     "donor_token": "D-437217",
+     "patient_token": "P-d0385b",
+     "donor_abo": "A",
+     "donor_hla": [
+      "A2",
+      "A24",
+      "B7",
+      "B8",
+      "DR4",
+      "DR15"
+     ],
+     "patient_sensitization": "high"
+    },
+    {
+     "donor_token": "D-92e4db",
+     "patient_token": "P-56b2be",
+     "donor_abo": "B",
+     "donor_hla": [
+      "A1",
+      "A3",
+      "B35",
+      "B51",
+      "DR1",
+      "DR7"
+     ],
+     "patient_sensitization": "medium"
+    },
+    {
+     "donor_token": "D-1f54b9",
+     "patient_token": "P-b34e6d",
+     "donor_abo": "O",
+     "donor_hla": [
+      "A11",
+      "A68",
+      "B44",
+      "B57",
+      "DR11",
+      "DR13"
+     ],
+     "patient_sensitization": "medium"
+    },
+    {
+     "donor_token": "D-a63839",
+     "patient_token": "P-26a50f",
+     "donor_abo": "A",
+     "donor_hla": [
+      "A2",
+      "A29",
+      "B18",
+      "B62",
+      "DR3",
+      "DR8"
+     ],
+     "patient_sensitization": "medium"
+    },
+    {
+     "donor_token": "D-a4892d",
+     "patient_token": "P-548f0d",
+     "donor_abo": "AB",
+     "donor_hla": [
+      "A30",
+      "A33",
+      "B13",
+      "B58",
+      "DR9",
+      "DR12"
+     ],
+     "patient_sensitization": "low"
+    }
+   ]
+  }
+ },
+ {
+  "type": "msg_sent",
+  "round": "CHECK",
+  "to": "1039595",
+  "bytes": 800,
+  "payload": {
+   "type": "CHECK",
+   "salt": "demo",
+   "donors": [
+    {
+     "donor_token": "D-437217",
+     "patient_token": "P-d0385b",
+     "donor_abo": "A",
+     "donor_hla": [
+      "A2",
+      "A24",
+      "B7",
+      "B8",
+      "DR4",
+      "DR15"
+     ],
+     "patient_sensitization": "high"
+    },
+    {
+     "donor_token": "D-92e4db",
+     "patient_token": "P-56b2be",
+     "donor_abo": "B",
+     "donor_hla": [
+      "A1",
+      "A3",
+      "B35",
+      "B51",
+      "DR1",
+      "DR7"
+     ],
+     "patient_sensitization": "medium"
+    },
+    {
+     "donor_token": "D-1f54b9",
+     "patient_token": "P-b34e6d",
+     "donor_abo": "O",
+     "donor_hla": [
+      "A11",
+      "A68",
+      "B44",
+      "B57",
+      "DR11",
+      "DR13"
+     ],
+     "patient_sensitization": "medium"
+    },
+    {
+     "donor_token": "D-a63839",
+     "patient_token": "P-26a50f",
+     "donor_abo": "A",
+     "donor_hla": [
+      "A2",
+      "A29",
+      "B18",
+      "B62",
+      "DR3",
+      "DR8"
+     ],
+     "patient_sensitization": "medium"
+    },
+    {
+     "donor_token": "D-a4892d",
+     "patient_token": "P-548f0d",
+     "donor_abo": "AB",
+     "donor_hla": [
+      "A30",
+      "A33",
+      "B13",
+      "B58",
+      "DR9",
+      "DR12"
+     ],
+     "patient_sensitization": "low"
+    }
+   ]
+  }
+ },
+ {
+  "type": "msg_received",
+  "round": "CHECK",
+  "from": "1007919",
+  "bytes": 107,
+  "payload": {
+   "hospital": "bay-general",
+   "checked": 5,
+   "compatible": [
+    {
+     "donor_token": "D-1f54b9",
+     "patient_token": "P-d0385b"
+    }
+   ]
+  }
+ },
+ {
+  "type": "msg_received",
+  "round": "CHECK",
+  "from": "1015838",
+  "bytes": 165,
+  "payload": {
+   "hospital": "mission-medical",
+   "checked": 5,
+   "compatible": [
+    {
+     "donor_token": "D-437217",
+     "patient_token": "P-56b2be"
+    },
+    {
+     "donor_token": "D-a63839",
+     "patient_token": "P-56b2be"
+    }
+   ]
+  }
+ },
+ {
+  "type": "msg_received",
+  "round": "CHECK",
+  "from": "1023757",
+  "bytes": 109,
+  "payload": {
+   "hospital": "valley-health",
+   "checked": 5,
+   "compatible": [
+    {
+     "donor_token": "D-92e4db",
+     "patient_token": "P-b34e6d"
+    }
+   ]
+  }
+ },
+ {
+  "type": "msg_received",
+  "round": "CHECK",
+  "from": "1031676",
+  "bytes": 167,
+  "payload": {
+   "hospital": "peninsula-medical",
+   "checked": 5,
+   "compatible": [
+    {
+     "donor_token": "D-1f54b9",
+     "patient_token": "P-26a50f"
+    },
+    {
+     "donor_token": "D-a4892d",
+     "patient_token": "P-26a50f"
+    }
+   ]
+  }
+ },
+ {
+  "type": "msg_received",
+  "round": "CHECK",
+  "from": "1039595",
+  "bytes": 166,
+  "payload": {
+   "hospital": "capitol-hospital",
+   "checked": 5,
+   "compatible": [
+    {
+     "donor_token": "D-437217",
+     "patient_token": "P-548f0d"
+    },
+    {
+     "donor_token": "D-a63839",
+     "patient_token": "P-548f0d"
+    }
+   ]
+  }
+ },
+ {
+  "type": "graph",
+  "nodes": [
+   {
+    "id": "P-26a50f",
+    "hospital": "peninsula-medical",
+    "sensitization": "medium"
+   },
+   {
+    "id": "P-548f0d",
+    "hospital": "capitol-hospital",
+    "sensitization": "low"
+   },
+   {
+    "id": "P-56b2be",
+    "hospital": "mission-medical",
+    "sensitization": "medium"
+   },
+   {
+    "id": "P-b34e6d",
+    "hospital": "valley-health",
+    "sensitization": "medium"
+   },
+   {
+    "id": "P-d0385b",
+    "hospital": "bay-general",
+    "sensitization": "high"
+   }
+  ],
+  "edges": [
+   {
+    "from": "P-26a50f",
+    "to": "P-548f0d"
+   },
+   {
+    "from": "P-26a50f",
+    "to": "P-56b2be"
+   },
+   {
+    "from": "P-548f0d",
+    "to": "P-26a50f"
+   },
+   {
+    "from": "P-56b2be",
+    "to": "P-b34e6d"
+   },
+   {
+    "from": "P-b34e6d",
+    "to": "P-26a50f"
+   },
+   {
+    "from": "P-b34e6d",
+    "to": "P-d0385b"
+   },
+   {
+    "from": "P-d0385b",
+    "to": "P-548f0d"
+   },
+   {
+    "from": "P-d0385b",
+    "to": "P-56b2be"
+   }
+  ]
+ },
+ {
+  "type": "cycle_rejected_long",
+  "cycle": [
+   "P-26a50f",
+   "P-56b2be",
+   "P-b34e6d",
+   "P-d0385b",
+   "P-548f0d"
+  ],
+  "surgeries": 10
+ },
+ {
+  "type": "plan_siloed",
+  "cycles": [],
+  "transplants": 0
+ },
+ {
+  "type": "plan_naive",
+  "cycles": [
+   [
+    "P-26a50f",
+    "P-56b2be",
+    "P-b34e6d"
+   ]
+  ],
+  "transplants": 3
+ },
+ {
+  "type": "plan_optimal",
+  "cycles": [
+   [
+    "P-56b2be",
+    "P-b34e6d",
+    "P-d0385b"
+   ],
+   [
+    "P-26a50f",
+    "P-548f0d"
+   ]
+  ],
+  "transplants": 5,
+  "legs": [
+   {
+    "donor_token": "D-92e4db",
+    "patient_token": "P-b34e6d",
+    "from_hospital": "mission-medical",
+    "to_hospital": "valley-health"
+   },
+   {
+    "donor_token": "D-1f54b9",
+    "patient_token": "P-d0385b",
+    "from_hospital": "valley-health",
+    "to_hospital": "bay-general"
+   },
+   {
+    "donor_token": "D-437217",
+    "patient_token": "P-56b2be",
+    "from_hospital": "bay-general",
+    "to_hospital": "mission-medical"
+   },
+   {
+    "donor_token": "D-a63839",
+    "patient_token": "P-548f0d",
+    "from_hospital": "peninsula-medical",
+    "to_hospital": "capitol-hospital"
+   },
+   {
+    "donor_token": "D-a4892d",
+    "patient_token": "P-26a50f",
+    "from_hospital": "capitol-hospital",
+    "to_hospital": "peninsula-medical"
+   }
+  ]
+ },
+ {
+  "type": "approval_requested",
+  "legs": [
+   {
+    "donor_token": "D-92e4db",
+    "patient_token": "P-b34e6d",
+    "from_hospital": "mission-medical",
+    "to_hospital": "valley-health"
+   },
+   {
+    "donor_token": "D-1f54b9",
+    "patient_token": "P-d0385b",
+    "from_hospital": "valley-health",
+    "to_hospital": "bay-general"
+   },
+   {
+    "donor_token": "D-437217",
+    "patient_token": "P-56b2be",
+    "from_hospital": "bay-general",
+    "to_hospital": "mission-medical"
+   },
+   {
+    "donor_token": "D-a63839",
+    "patient_token": "P-548f0d",
+    "from_hospital": "peninsula-medical",
+    "to_hospital": "capitol-hospital"
+   },
+   {
+    "donor_token": "D-a4892d",
+    "patient_token": "P-26a50f",
+    "from_hospital": "capitol-hospital",
+    "to_hospital": "peninsula-medical"
+   }
+  ],
+  "attempt": 1
+ },
+ {
+  "type": "msg_sent",
+  "round": "CONFIRM",
+  "to": "1007919",
+  "bytes": 663,
+  "payload": {
+   "type": "CONFIRM",
+   "salt": "demo",
+   "legs": [
+    {
+     "donor_token": "D-92e4db",
+     "patient_token": "P-b34e6d",
+     "from_hospital": "mission-medical",
+     "to_hospital": "valley-health"
+    },
+    {
+     "donor_token": "D-1f54b9",
+     "patient_token": "P-d0385b",
+     "from_hospital": "valley-health",
+     "to_hospital": "bay-general"
+    },
+    {
+     "donor_token": "D-437217",
+     "patient_token": "P-56b2be",
+     "from_hospital": "bay-general",
+     "to_hospital": "mission-medical"
+    },
+    {
+     "donor_token": "D-a63839",
+     "patient_token": "P-548f0d",
+     "from_hospital": "peninsula-medical",
+     "to_hospital": "capitol-hospital"
+    },
+    {
+     "donor_token": "D-a4892d",
+     "patient_token": "P-26a50f",
+     "from_hospital": "capitol-hospital",
+     "to_hospital": "peninsula-medical"
+    }
+   ],
+   "scenario": "surgeon-reject"
+  }
+ },
+ {
+  "type": "msg_sent",
+  "round": "CONFIRM",
+  "to": "1015838",
+  "bytes": 663,
+  "payload": {
+   "type": "CONFIRM",
+   "salt": "demo",
+   "legs": [
+    {
+     "donor_token": "D-92e4db",
+     "patient_token": "P-b34e6d",
+     "from_hospital": "mission-medical",
+     "to_hospital": "valley-health"
+    },
+    {
+     "donor_token": "D-1f54b9",
+     "patient_token": "P-d0385b",
+     "from_hospital": "valley-health",
+     "to_hospital": "bay-general"
+    },
+    {
+     "donor_token": "D-437217",
+     "patient_token": "P-56b2be",
+     "from_hospital": "bay-general",
+     "to_hospital": "mission-medical"
+    },
+    {
+     "donor_token": "D-a63839",
+     "patient_token": "P-548f0d",
+     "from_hospital": "peninsula-medical",
+     "to_hospital": "capitol-hospital"
+    },
+    {
+     "donor_token": "D-a4892d",
+     "patient_token": "P-26a50f",
+     "from_hospital": "capitol-hospital",
+     "to_hospital": "peninsula-medical"
+    }
+   ],
+   "scenario": "surgeon-reject"
+  }
+ },
+ {
+  "type": "msg_sent",
+  "round": "CONFIRM",
+  "to": "1023757",
+  "bytes": 663,
+  "payload": {
+   "type": "CONFIRM",
+   "salt": "demo",
+   "legs": [
+    {
+     "donor_token": "D-92e4db",
+     "patient_token": "P-b34e6d",
+     "from_hospital": "mission-medical",
+     "to_hospital": "valley-health"
+    },
+    {
+     "donor_token": "D-1f54b9",
+     "patient_token": "P-d0385b",
+     "from_hospital": "valley-health",
+     "to_hospital": "bay-general"
+    },
+    {
+     "donor_token": "D-437217",
+     "patient_token": "P-56b2be",
+     "from_hospital": "bay-general",
+     "to_hospital": "mission-medical"
+    },
+    {
+     "donor_token": "D-a63839",
+     "patient_token": "P-548f0d",
+     "from_hospital": "peninsula-medical",
+     "to_hospital": "capitol-hospital"
+    },
+    {
+     "donor_token": "D-a4892d",
+     "patient_token": "P-26a50f",
+     "from_hospital": "capitol-hospital",
+     "to_hospital": "peninsula-medical"
+    }
+   ],
+   "scenario": "surgeon-reject"
+  }
+ },
+ {
+  "type": "msg_sent",
+  "round": "CONFIRM",
+  "to": "1031676",
+  "bytes": 663,
+  "payload": {
+   "type": "CONFIRM",
+   "salt": "demo",
+   "legs": [
+    {
+     "donor_token": "D-92e4db",
+     "patient_token": "P-b34e6d",
+     "from_hospital": "mission-medical",
+     "to_hospital": "valley-health"
+    },
+    {
+     "donor_token": "D-1f54b9",
+     "patient_token": "P-d0385b",
+     "from_hospital": "valley-health",
+     "to_hospital": "bay-general"
+    },
+    {
+     "donor_token": "D-437217",
+     "patient_token": "P-56b2be",
+     "from_hospital": "bay-general",
+     "to_hospital": "mission-medical"
+    },
+    {
+     "donor_token": "D-a63839",
+     "patient_token": "P-548f0d",
+     "from_hospital": "peninsula-medical",
+     "to_hospital": "capitol-hospital"
+    },
+    {
+     "donor_token": "D-a4892d",
+     "patient_token": "P-26a50f",
+     "from_hospital": "capitol-hospital",
+     "to_hospital": "peninsula-medical"
+    }
+   ],
+   "scenario": "surgeon-reject"
+  }
+ },
+ {
+  "type": "msg_sent",
+  "round": "CONFIRM",
+  "to": "1039595",
+  "bytes": 663,
+  "payload": {
+   "type": "CONFIRM",
+   "salt": "demo",
+   "legs": [
+    {
+     "donor_token": "D-92e4db",
+     "patient_token": "P-b34e6d",
+     "from_hospital": "mission-medical",
+     "to_hospital": "valley-health"
+    },
+    {
+     "donor_token": "D-1f54b9",
+     "patient_token": "P-d0385b",
+     "from_hospital": "valley-health",
+     "to_hospital": "bay-general"
+    },
+    {
+     "donor_token": "D-437217",
+     "patient_token": "P-56b2be",
+     "from_hospital": "bay-general",
+     "to_hospital": "mission-medical"
+    },
+    {
+     "donor_token": "D-a63839",
+     "patient_token": "P-548f0d",
+     "from_hospital": "peninsula-medical",
+     "to_hospital": "capitol-hospital"
+    },
+    {
+     "donor_token": "D-a4892d",
+     "patient_token": "P-26a50f",
+     "from_hospital": "capitol-hospital",
+     "to_hospital": "peninsula-medical"
+    }
+   ],
+   "scenario": "surgeon-reject"
+  }
+ },
+ {
+  "type": "msg_received",
+  "round": "CONFIRM",
+  "from": "1007919",
+  "bytes": 192,
+  "payload": {
+   "hospital": "bay-general",
+   "decisions": [
+    {
+     "donor_token": "D-1f54b9",
+     "patient_token": "P-d0385b",
+     "from_hospital": "valley-health",
+     "to_hospital": "bay-general",
+     "approved": true,
+     "category": "approved"
+    }
+   ]
+  }
+ },
+ {
+  "type": "msg_received",
+  "round": "CONFIRM",
+  "from": "1015838",
+  "bytes": 198,
+  "payload": {
+   "hospital": "mission-medical",
+   "decisions": [
+    {
+     "donor_token": "D-437217",
+     "patient_token": "P-56b2be",
+     "from_hospital": "bay-general",
+     "to_hospital": "mission-medical",
+     "approved": true,
+     "category": "approved"
+    }
+   ]
+  }
+ },
+ {
+  "type": "msg_received",
+  "round": "CONFIRM",
+  "from": "1023757",
+  "bytes": 198,
+  "payload": {
+   "hospital": "valley-health",
+   "decisions": [
+    {
+     "donor_token": "D-92e4db",
+     "patient_token": "P-b34e6d",
+     "from_hospital": "mission-medical",
+     "to_hospital": "valley-health",
+     "approved": true,
+     "category": "approved"
+    }
+   ]
+  }
+ },
+ {
+  "type": "msg_received",
+  "round": "CONFIRM",
+  "from": "1031676",
+  "bytes": 207,
+  "payload": {
+   "hospital": "peninsula-medical",
+   "decisions": [
+    {
+     "donor_token": "D-a4892d",
+     "patient_token": "P-26a50f",
+     "from_hospital": "capitol-hospital",
+     "to_hospital": "peninsula-medical",
+     "approved": true,
+     "category": "approved"
+    }
+   ]
+  }
+ },
+ {
+  "type": "msg_received",
+  "round": "CONFIRM",
+  "from": "1039595",
+  "bytes": 227,
+  "payload": {
+   "hospital": "capitol-hospital",
+   "decisions": [
+    {
+     "donor_token": "D-a63839",
+     "patient_token": "P-548f0d",
+     "from_hospital": "peninsula-medical",
+     "to_hospital": "capitol-hospital",
+     "approved": false,
+     "category": "physical crossmatch positive"
+    }
+   ]
+  }
+ },
+ {
+  "type": "rejected",
+  "leg": {
+   "donor_token": "D-a63839",
+   "patient_token": "P-548f0d",
+   "from_hospital": "peninsula-medical",
+   "to_hospital": "capitol-hospital",
+   "approved": false,
+   "category": "physical crossmatch positive"
+  },
+  "hospital": "capitol-hospital"
+ },
+ {
+  "type": "replanned",
+  "excluded": [
+   [
+    "P-26a50f",
+    "P-548f0d"
+   ]
+  ],
+  "counts": {
+   "siloed": 0,
+   "naive": 3,
+   "optimal": 3
+  }
+ },
+ {
+  "type": "cycle_rejected_long",
+  "cycle": [
+   "P-26a50f",
+   "P-56b2be",
+   "P-b34e6d",
+   "P-d0385b",
+   "P-548f0d"
+  ],
+  "surgeries": 10
+ },
+ {
+  "type": "plan_siloed",
+  "cycles": [],
+  "transplants": 0
+ },
+ {
+  "type": "plan_naive",
+  "cycles": [
+   [
+    "P-26a50f",
+    "P-56b2be",
+    "P-b34e6d"
+   ]
+  ],
+  "transplants": 3
+ },
+ {
+  "type": "plan_optimal",
+  "cycles": [
+   [
+    "P-56b2be",
+    "P-b34e6d",
+    "P-d0385b"
+   ]
+  ],
+  "transplants": 3,
+  "legs": [
+   {
+    "donor_token": "D-92e4db",
+    "patient_token": "P-b34e6d",
+    "from_hospital": "mission-medical",
+    "to_hospital": "valley-health"
+   },
+   {
+    "donor_token": "D-1f54b9",
+    "patient_token": "P-d0385b",
+    "from_hospital": "valley-health",
+    "to_hospital": "bay-general"
+   },
+   {
+    "donor_token": "D-437217",
+    "patient_token": "P-56b2be",
+    "from_hospital": "bay-general",
+    "to_hospital": "mission-medical"
+   }
+  ]
+ },
+ {
+  "type": "approval_requested",
+  "legs": [
+   {
+    "donor_token": "D-92e4db",
+    "patient_token": "P-b34e6d",
+    "from_hospital": "mission-medical",
+    "to_hospital": "valley-health"
+   },
+   {
+    "donor_token": "D-1f54b9",
+    "patient_token": "P-d0385b",
+    "from_hospital": "valley-health",
+    "to_hospital": "bay-general"
+   },
+   {
+    "donor_token": "D-437217",
+    "patient_token": "P-56b2be",
+    "from_hospital": "bay-general",
+    "to_hospital": "mission-medical"
+   }
+  ],
+  "attempt": 2
+ },
+ {
+  "type": "msg_sent",
+  "round": "CONFIRM",
+  "to": "1007919",
+  "bytes": 403,
+  "payload": {
+   "type": "CONFIRM",
+   "salt": "demo",
+   "legs": [
+    {
+     "donor_token": "D-92e4db",
+     "patient_token": "P-b34e6d",
+     "from_hospital": "mission-medical",
+     "to_hospital": "valley-health"
+    },
+    {
+     "donor_token": "D-1f54b9",
+     "patient_token": "P-d0385b",
+     "from_hospital": "valley-health",
+     "to_hospital": "bay-general"
+    },
+    {
+     "donor_token": "D-437217",
+     "patient_token": "P-56b2be",
+     "from_hospital": "bay-general",
+     "to_hospital": "mission-medical"
+    }
+   ],
+   "scenario": ""
+  }
+ },
+ {
+  "type": "msg_sent",
+  "round": "CONFIRM",
+  "to": "1015838",
+  "bytes": 403,
+  "payload": {
+   "type": "CONFIRM",
+   "salt": "demo",
+   "legs": [
+    {
+     "donor_token": "D-92e4db",
+     "patient_token": "P-b34e6d",
+     "from_hospital": "mission-medical",
+     "to_hospital": "valley-health"
+    },
+    {
+     "donor_token": "D-1f54b9",
+     "patient_token": "P-d0385b",
+     "from_hospital": "valley-health",
+     "to_hospital": "bay-general"
+    },
+    {
+     "donor_token": "D-437217",
+     "patient_token": "P-56b2be",
+     "from_hospital": "bay-general",
+     "to_hospital": "mission-medical"
+    }
+   ],
+   "scenario": ""
+  }
+ },
+ {
+  "type": "msg_sent",
+  "round": "CONFIRM",
+  "to": "1023757",
+  "bytes": 403,
+  "payload": {
+   "type": "CONFIRM",
+   "salt": "demo",
+   "legs": [
+    {
+     "donor_token": "D-92e4db",
+     "patient_token": "P-b34e6d",
+     "from_hospital": "mission-medical",
+     "to_hospital": "valley-health"
+    },
+    {
+     "donor_token": "D-1f54b9",
+     "patient_token": "P-d0385b",
+     "from_hospital": "valley-health",
+     "to_hospital": "bay-general"
+    },
+    {
+     "donor_token": "D-437217",
+     "patient_token": "P-56b2be",
+     "from_hospital": "bay-general",
+     "to_hospital": "mission-medical"
+    }
+   ],
+   "scenario": ""
+  }
+ },
+ {
+  "type": "msg_sent",
+  "round": "CONFIRM",
+  "to": "1031676",
+  "bytes": 403,
+  "payload": {
+   "type": "CONFIRM",
+   "salt": "demo",
+   "legs": [
+    {
+     "donor_token": "D-92e4db",
+     "patient_token": "P-b34e6d",
+     "from_hospital": "mission-medical",
+     "to_hospital": "valley-health"
+    },
+    {
+     "donor_token": "D-1f54b9",
+     "patient_token": "P-d0385b",
+     "from_hospital": "valley-health",
+     "to_hospital": "bay-general"
+    },
+    {
+     "donor_token": "D-437217",
+     "patient_token": "P-56b2be",
+     "from_hospital": "bay-general",
+     "to_hospital": "mission-medical"
+    }
+   ],
+   "scenario": ""
+  }
+ },
+ {
+  "type": "msg_sent",
+  "round": "CONFIRM",
+  "to": "1039595",
+  "bytes": 403,
+  "payload": {
+   "type": "CONFIRM",
+   "salt": "demo",
+   "legs": [
+    {
+     "donor_token": "D-92e4db",
+     "patient_token": "P-b34e6d",
+     "from_hospital": "mission-medical",
+     "to_hospital": "valley-health"
+    },
+    {
+     "donor_token": "D-1f54b9",
+     "patient_token": "P-d0385b",
+     "from_hospital": "valley-health",
+     "to_hospital": "bay-general"
+    },
+    {
+     "donor_token": "D-437217",
+     "patient_token": "P-56b2be",
+     "from_hospital": "bay-general",
+     "to_hospital": "mission-medical"
+    }
+   ],
+   "scenario": ""
+  }
+ },
+ {
+  "type": "msg_received",
+  "round": "CONFIRM",
+  "from": "1007919",
+  "bytes": 192,
+  "payload": {
+   "hospital": "bay-general",
+   "decisions": [
+    {
+     "donor_token": "D-1f54b9",
+     "patient_token": "P-d0385b",
+     "from_hospital": "valley-health",
+     "to_hospital": "bay-general",
+     "approved": true,
+     "category": "approved"
+    }
+   ]
+  }
+ },
+ {
+  "type": "msg_received",
+  "round": "CONFIRM",
+  "from": "1015838",
+  "bytes": 198,
+  "payload": {
+   "hospital": "mission-medical",
+   "decisions": [
+    {
+     "donor_token": "D-437217",
+     "patient_token": "P-56b2be",
+     "from_hospital": "bay-general",
+     "to_hospital": "mission-medical",
+     "approved": true,
+     "category": "approved"
+    }
+   ]
+  }
+ },
+ {
+  "type": "msg_received",
+  "round": "CONFIRM",
+  "from": "1023757",
+  "bytes": 198,
+  "payload": {
+   "hospital": "valley-health",
+   "decisions": [
+    {
+     "donor_token": "D-92e4db",
+     "patient_token": "P-b34e6d",
+     "from_hospital": "mission-medical",
+     "to_hospital": "valley-health",
+     "approved": true,
+     "category": "approved"
+    }
+   ]
+  }
+ },
+ {
+  "type": "msg_received",
+  "round": "CONFIRM",
+  "from": "1031676",
+  "bytes": 47,
+  "payload": {
+   "hospital": "peninsula-medical",
+   "decisions": []
+  }
+ },
+ {
+  "type": "msg_received",
+  "round": "CONFIRM",
+  "from": "1039595",
+  "bytes": 46,
+  "payload": {
+   "hospital": "capitol-hospital",
+   "decisions": []
+  }
+ },
+ {
+  "type": "confirmed",
+  "legs": [
+   {
+    "donor_token": "D-92e4db",
+    "patient_token": "P-b34e6d",
+    "from_hospital": "mission-medical",
+    "to_hospital": "valley-health"
+   },
+   {
+    "donor_token": "D-1f54b9",
+    "patient_token": "P-d0385b",
+    "from_hospital": "valley-health",
+    "to_hospital": "bay-general"
+   },
+   {
+    "donor_token": "D-437217",
+    "patient_token": "P-56b2be",
+    "from_hospital": "bay-general",
+    "to_hospital": "mission-medical"
+   }
+  ]
+ },
+ {
+  "type": "msg_sent",
+  "round": "REVEAL",
+  "to": "1007919",
+  "bytes": 388,
+  "payload": {
+   "type": "REVEAL",
+   "salt": "demo",
+   "legs": [
+    {
+     "donor_token": "D-92e4db",
+     "patient_token": "P-b34e6d",
+     "from_hospital": "mission-medical",
+     "to_hospital": "valley-health"
+    },
+    {
+     "donor_token": "D-1f54b9",
+     "patient_token": "P-d0385b",
+     "from_hospital": "valley-health",
+     "to_hospital": "bay-general"
+    },
+    {
+     "donor_token": "D-437217",
+     "patient_token": "P-56b2be",
+     "from_hospital": "bay-general",
+     "to_hospital": "mission-medical"
+    }
+   ]
+  }
+ },
+ {
+  "type": "msg_sent",
+  "round": "REVEAL",
+  "to": "1015838",
+  "bytes": 388,
+  "payload": {
+   "type": "REVEAL",
+   "salt": "demo",
+   "legs": [
+    {
+     "donor_token": "D-92e4db",
+     "patient_token": "P-b34e6d",
+     "from_hospital": "mission-medical",
+     "to_hospital": "valley-health"
+    },
+    {
+     "donor_token": "D-1f54b9",
+     "patient_token": "P-d0385b",
+     "from_hospital": "valley-health",
+     "to_hospital": "bay-general"
+    },
+    {
+     "donor_token": "D-437217",
+     "patient_token": "P-56b2be",
+     "from_hospital": "bay-general",
+     "to_hospital": "mission-medical"
+    }
+   ]
+  }
+ },
+ {
+  "type": "msg_sent",
+  "round": "REVEAL",
+  "to": "1023757",
+  "bytes": 388,
+  "payload": {
+   "type": "REVEAL",
+   "salt": "demo",
+   "legs": [
+    {
+     "donor_token": "D-92e4db",
+     "patient_token": "P-b34e6d",
+     "from_hospital": "mission-medical",
+     "to_hospital": "valley-health"
+    },
+    {
+     "donor_token": "D-1f54b9",
+     "patient_token": "P-d0385b",
+     "from_hospital": "valley-health",
+     "to_hospital": "bay-general"
+    },
+    {
+     "donor_token": "D-437217",
+     "patient_token": "P-56b2be",
+     "from_hospital": "bay-general",
+     "to_hospital": "mission-medical"
+    }
+   ]
+  }
+ },
+ {
+  "type": "msg_sent",
+  "round": "REVEAL",
+  "to": "1031676",
+  "bytes": 388,
+  "payload": {
+   "type": "REVEAL",
+   "salt": "demo",
+   "legs": [
+    {
+     "donor_token": "D-92e4db",
+     "patient_token": "P-b34e6d",
+     "from_hospital": "mission-medical",
+     "to_hospital": "valley-health"
+    },
+    {
+     "donor_token": "D-1f54b9",
+     "patient_token": "P-d0385b",
+     "from_hospital": "valley-health",
+     "to_hospital": "bay-general"
+    },
+    {
+     "donor_token": "D-437217",
+     "patient_token": "P-56b2be",
+     "from_hospital": "bay-general",
+     "to_hospital": "mission-medical"
+    }
+   ]
+  }
+ },
+ {
+  "type": "msg_sent",
+  "round": "REVEAL",
+  "to": "1039595",
+  "bytes": 388,
+  "payload": {
+   "type": "REVEAL",
+   "salt": "demo",
+   "legs": [
+    {
+     "donor_token": "D-92e4db",
+     "patient_token": "P-b34e6d",
+     "from_hospital": "mission-medical",
+     "to_hospital": "valley-health"
+    },
+    {
+     "donor_token": "D-1f54b9",
+     "patient_token": "P-d0385b",
+     "from_hospital": "valley-health",
+     "to_hospital": "bay-general"
+    },
+    {
+     "donor_token": "D-437217",
+     "patient_token": "P-56b2be",
+     "from_hospital": "bay-general",
+     "to_hospital": "mission-medical"
+    }
+   ]
+  }
+ },
+ {
+  "type": "msg_received",
+  "round": "REVEAL",
+  "from": "1007919",
+  "bytes": 162,
+  "payload": {
+   "hospital": "bay-general",
+   "people": [
+    {
+     "donor_token": "D-437217",
+     "patient_token": "P-d0385b",
+     "patient": "Maria",
+     "donor": "Tom",
+     "relation": "husband",
+     "years_waiting": 7
+    }
+   ]
+  }
+ },
+ {
+  "type": "msg_received",
+  "round": "REVEAL",
+  "from": "1015838",
+  "bytes": 165,
+  "payload": {
+   "hospital": "mission-medical",
+   "people": [
+    {
+     "donor_token": "D-92e4db",
+     "patient_token": "P-56b2be",
+     "patient": "James",
+     "donor": "Linda",
+     "relation": "wife",
+     "years_waiting": 3
+    }
+   ]
+  }
+ },
+ {
+  "type": "msg_received",
+  "round": "REVEAL",
+  "from": "1023757",
+  "bytes": 164,
+  "payload": {
+   "hospital": "valley-health",
+   "people": [
+    {
+     "donor_token": "D-1f54b9",
+     "patient_token": "P-b34e6d",
+     "patient": "Priya",
+     "donor": "Sam",
+     "relation": "partner",
+     "years_waiting": 4
+    }
+   ]
+  }
+ },
+ {
+  "type": "msg_received",
+  "round": "REVEAL",
+  "from": "1031676",
+  "bytes": 44,
+  "payload": {
+   "hospital": "peninsula-medical",
+   "people": []
+  }
+ },
+ {
+  "type": "msg_received",
+  "round": "REVEAL",
+  "from": "1039595",
+  "bytes": 43,
+  "payload": {
+   "hospital": "capitol-hospital",
+   "people": []
+  }
+ },
+ {
+  "type": "reveal",
+  "legs": [
+   {
+    "donor_token": "D-92e4db",
+    "patient_token": "P-b34e6d",
+    "from_hospital": "mission-medical",
+    "to_hospital": "valley-health"
+   },
+   {
+    "donor_token": "D-1f54b9",
+    "patient_token": "P-d0385b",
+    "from_hospital": "valley-health",
+    "to_hospital": "bay-general"
+   },
+   {
+    "donor_token": "D-437217",
+    "patient_token": "P-56b2be",
+    "from_hospital": "bay-general",
+    "to_hospital": "mission-medical"
+   }
+  ],
+  "people": {
+   "P-d0385b": {
+    "donor_token": "D-437217",
+    "patient_token": "P-d0385b",
+    "patient": "Maria",
+    "donor": "Tom",
+    "relation": "husband",
+    "years_waiting": 7,
+    "hospital": "bay-general"
+   },
+   "P-56b2be": {
+    "donor_token": "D-92e4db",
+    "patient_token": "P-56b2be",
+    "patient": "James",
+    "donor": "Linda",
+    "relation": "wife",
+    "years_waiting": 3,
+    "hospital": "mission-medical"
+   },
+   "P-b34e6d": {
+    "donor_token": "D-1f54b9",
+    "patient_token": "P-b34e6d",
+    "patient": "Priya",
+    "donor": "Sam",
+    "relation": "partner",
+    "years_waiting": 4,
+    "hospital": "valley-health"
+   }
+  }
+ },
+ {
+  "type": "done",
+  "action": "confirm",
+  "counts": {
+   "siloed": 0,
+   "naive": 3,
+   "optimal": 3
+  },
+  "seconds": 0.0
+ }
+]
