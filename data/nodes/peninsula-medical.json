@@ -1,0 +1,33 @@
+{
+  "hospital": "peninsula-medical",
+  "display_name": "Peninsula Medical",
+  "arrival": 3,
+  "pairs": [
+    {
+      "pair_id": "peninsula-medical-1",
+      "patient": {
+        "name": "Daniel",
+        "abo": "AB",
+        "cpra": 27,
+        "years_waiting": 2,
+        "unacceptable": [
+          "A2",
+          "B35"
+        ]
+      },
+      "donor": {
+        "name": "Rosa",
+        "relation": "wife",
+        "abo": "A",
+        "hla": [
+          "A2",
+          "A29",
+          "B18",
+          "B62",
+          "DR3",
+          "DR8"
+        ]
+      }
+    }
+  ]
+}

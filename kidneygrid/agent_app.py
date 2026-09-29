@@ -14,7 +14,7 @@ from flwr.app import Context
 from openai import OpenAI
 
 from kidneygrid.coordinator import Coordinator
-from kidneygrid.exchange import HospitalAgent, load_hospitals
+from kidneygrid.exchange import HospitalAgent, load_local_records
 
 EVENT_PREFIX = "KIDNEYGRID_EVENT "
 PULL_TIMEOUT = 240
@@ -113,12 +113,14 @@ def _run_hospital(agent: AgentSession, context: Context) -> None:
         message = json.loads(envelope.get("payload", "{}"))
     except json.JSONDecodeError:
         message = {"type": envelope.get("payload", "")}
-    hospital_id = str(context.node_config.get("hospital", ""))
-    hospitals = load_hospitals()
-    if hospital_id not in hospitals:
-        reply = {"error": f"unknown hospital '{hospital_id}'"}
+    # Each hospital's records live on its own SuperNode's disk, never in the app bundle.
+    records_path = str(context.node_config.get("records", ""))
+    try:
+        hospital_id, record = load_local_records(records_path)
+    except (OSError, ValueError, KeyError):
+        reply = {"error": "no local hospital records configured on this node"}
     else:
-        reply = HospitalAgent(hospital_id, hospitals[hospital_id]).handle(message)
+        reply = HospitalAgent(hospital_id, record).handle(message)
     _grid_call(agent, "push_reply_message", {"payload": json.dumps(reply)})
 
 

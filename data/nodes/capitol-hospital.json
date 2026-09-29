@@ -1,0 +1,38 @@
+{
+  "hospital": "capitol-hospital",
+  "display_name": "Capitol Hospital",
+  "arrival": 5,
+  "pairs": [
+    {
+      "pair_id": "capitol-hospital-1",
+      "patient": {
+        "name": "Aisha",
+        "abo": "A",
+        "cpra": 15,
+        "years_waiting": 5,
+        "unacceptable": [
+          "B57"
+        ]
+      },
+      "donor": {
+        "name": "Kevin",
+        "relation": "husband",
+        "abo": "AB",
+        "hla": [
+          "A30",
+          "A33",
+          "B13",
+          "B58",
+          "DR9",
+          "DR12"
+        ]
+      }
+    }
+  ],
+  "holds": {
+    "surgeon-reject": {
+      "pair_id": "capitol-hospital-1",
+      "reason": "Physical crossmatch for incoming donor came back positive; surgeon declines this leg."
+    }
+  }
+}

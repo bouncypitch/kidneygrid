@@ -1,0 +1,46 @@
+{
+  "hospital": "bay-general",
+  "display_name": "Bay General Hospital",
+  "arrival": 4,
+  "pairs": [
+    {
+      "pair_id": "bay-general-1",
+      "patient": {
+        "name": "Maria",
+        "abo": "O",
+        "cpra": 98,
+        "years_waiting": 7,
+        "unacceptable": [
+          "A1",
+          "A2",
+          "A3",
+          "A24",
+          "A26",
+          "B7",
+          "B8",
+          "B35",
+          "B51",
+          "B62",
+          "DR1",
+          "DR4",
+          "DR7",
+          "DR15",
+          "DR17"
+        ]
+      },
+      "donor": {
+        "name": "Tom",
+        "relation": "husband",
+        "abo": "A",
+        "hla": [
+          "A2",
+          "A24",
+          "B7",
+          "B8",
+          "DR4",
+          "DR15"
+        ]
+      }
+    }
+  ]
+}

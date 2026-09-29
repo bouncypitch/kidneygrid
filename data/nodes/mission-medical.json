@@ -1,0 +1,32 @@
+{
+  "hospital": "mission-medical",
+  "display_name": "Mission Medical Center",
+  "arrival": 1,
+  "pairs": [
+    {
+      "pair_id": "mission-medical-1",
+      "patient": {
+        "name": "James",
+        "abo": "A",
+        "cpra": 21,
+        "years_waiting": 3,
+        "unacceptable": [
+          "B44"
+        ]
+      },
+      "donor": {
+        "name": "Linda",
+        "relation": "wife",
+        "abo": "B",
+        "hla": [
+          "A1",
+          "A3",
+          "B35",
+          "B51",
+          "DR1",
+          "DR7"
+        ]
+      }
+    }
+  ]
+}

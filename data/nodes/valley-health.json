@@ -1,0 +1,32 @@
+{
+  "hospital": "valley-health",
+  "display_name": "Valley Health",
+  "arrival": 2,
+  "pairs": [
+    {
+      "pair_id": "valley-health-1",
+      "patient": {
+        "name": "Priya",
+        "abo": "B",
+        "cpra": 34,
+        "years_waiting": 4,
+        "unacceptable": [
+          "B44"
+        ]
+      },
+      "donor": {
+        "name": "Sam",
+        "relation": "partner",
+        "abo": "O",
+        "hla": [
+          "A11",
+          "A68",
+          "B44",
+          "B57",
+          "DR11",
+          "DR13"
+        ]
+      }
+    }
+  ]
+}

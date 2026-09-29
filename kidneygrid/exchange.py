@@ -8,7 +8,7 @@ patient pseudonyms, a coarse sensitization bucket and yes/no compatibility.
 import hashlib
 import hmac
 import json
-from importlib import resources
+from pathlib import Path
 
 from kidneygrid.compat import is_compatible
 from kidneygrid.optimizer import (
@@ -25,9 +25,18 @@ REGISTER, CHECK, CONFIRM, REVEAL = "REGISTER", "CHECK", "CONFIRM", "REVEAL"
 ALLOWED_TYPES = frozenset({REGISTER, CHECK, CONFIRM, REVEAL})
 
 
-def load_hospitals() -> dict[str, dict]:
-    raw = resources.files("kidneygrid").joinpath("data/hospitals.json").read_text()
-    return json.loads(raw)["hospitals"]
+REPO_DATA = Path(__file__).resolve().parent.parent / "data" / "hospitals.json"
+
+
+def load_hospitals(path: Path = REPO_DATA) -> dict[str, dict]:
+    """All synthetic hospitals, for tests, replays and the demo UI (never shipped in the FAB)."""
+    return json.loads(Path(path).read_text())["hospitals"]
+
+
+def load_local_records(path: str) -> tuple[str, dict]:
+    """One hospital's own records, read from its SuperNode's local disk."""
+    record = json.loads(Path(path).read_text())
+    return record.pop("hospital"), record
 
 
 def _pseudonym(secret: str, salt: str, kind: str, pair_id: str) -> str:

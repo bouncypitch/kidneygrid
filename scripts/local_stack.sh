@@ -20,7 +20,7 @@ sleep 4
 port=9110
 for h in "${HOSPITALS[@]}"; do
   uv run flower-supernode --insecure --superlink 127.0.0.1:9092 --port "$port" \
-    --node-config "hospital=\"$h\"" > "$LOGS/$h.log" 2>&1 &
+    --node-config "records=\"$PWD/data/nodes/$h.json\"" > "$LOGS/$h.log" 2>&1 &
   port=$((port + 1))
 done
 sleep 4
