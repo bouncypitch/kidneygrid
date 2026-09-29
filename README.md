@@ -69,7 +69,8 @@ uv run uvicorn web.server:app --port 8765      # demo UI at http://127.0.0.1:876
 Local runs need `[superlink.local-agent]` (address `127.0.0.1:8000`, `insecure = true`) in `~/.flwr/config.toml`.
 On SuperGrid: `uv run flwr login supergrid`, register one SuperNode per organization
 (`flwr supernode register keys/<id>.pub supergrid --name ... --location ...`), add them to a deployment federation,
-start them with `scripts/supergrid_nodes.sh`, then set `KIDNEYGRID_SUPERLINK=supergrid` and
+start them with `scripts/supergrid_nodes.sh` (in our demo Capitol Hospital runs on a Nebius Serverless AI endpoint
+using the `flwr/supernode:1.39.0-py3.12-ubuntu24.04` image with its key and records mounted under `/tmp`), then set `KIDNEYGRID_SUPERLINK=supergrid` and
 `KIDNEYGRID_FEDERATION=@<account>/<federation>` for the web app's Live mode. Hospital nodes are started with
 `--node-config 'hospital="<id>"'`.
 

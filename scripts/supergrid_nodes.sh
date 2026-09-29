@@ -5,7 +5,8 @@
 set -euo pipefail
 cd "$(dirname "$0")/.."
 LOGS=.stack
-HOSPITALS=(bay-general mission-medical valley-health peninsula-medical capitol-hospital golden-gate-courier)
+# capitol-hospital runs on Nebius Serverless AI (endpoint kidneygrid-capitol-hospital); start it locally only if that endpoint is stopped.
+HOSPITALS=(bay-general mission-medical valley-health peninsula-medical golden-gate-courier)
 
 # SuperGrid keeps a stopped node "active" for about a minute, so wait before reconnecting.
 stop() { if pkill -f "flower-supernode --superlink=fleet-supergrid" 2>/dev/null; then echo "waiting 65s for SuperGrid to release the nodes..."; sleep 65; fi; }
