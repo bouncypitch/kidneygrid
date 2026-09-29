@@ -30,6 +30,14 @@ app = FastAPI(title="KidneyGrid")
 app.mount("/static", StaticFiles(directory=WEB / "static"), name="static")
 
 
+@app.middleware("http")
+async def no_cache(request, call_next):
+    """The demo UI changes often; never let a browser show a stale copy on stage."""
+    response = await call_next(request)
+    response.headers["Cache-Control"] = "no-store"
+    return response
+
+
 @app.get("/")
 def index() -> FileResponse:
     return FileResponse(WEB / "static" / "index.html")

@@ -24,7 +24,8 @@ const DELAY = {
   nodes_found: 700, hospitals: 500, msg_sent: 110, msg_received: 170, graph: 1100,
   cycle_rejected_long: 2400, plan_siloed: 1300, plan_naive: 2000, plan_optimal: 2200,
   approval_requested: 1400, rejected: 2600, replanned: 1200, confirmed: 1200, reveal: 1200,
-  injection_blocked: 1800, narrative: 400, done: 0,
+  injection_blocked: 1800, narrative: 400, done: 0, courier: 200,
+  schedule_requested: 1200, schedule_proposed: 1800, booking_declined: 2600, schedule_confirmed: 1600, transport_booked: 1800,
 };
 
 const el = (tag, attrs = {}, parent = svg) => {
@@ -36,6 +37,10 @@ const el = (tag, attrs = {}, parent = svg) => {
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 const short = (id) => "…" + String(id).slice(-4);
 const hname = (hid) => state.hospitals[hid]?.display_name || hid;
+
+function fmtDay(iso) {
+  return new Date(iso + "T12:00:00").toLocaleDateString("en-US", { weekday: "short", month: "short", day: "numeric" });
+}
 
 function status(text) { $("#status").textContent = text; }
 
@@ -194,20 +199,27 @@ function summarize(ev) {
     if (ev.round === "CHECK") return `CHECK ${p.donors?.length ?? 0} anonymous donor tokens`;
     if (ev.round === "CONFIRM") return `CONFIRM ${p.legs?.length ?? 0} proposed legs`;
     if (ev.round === "REVEAL") return `REVEAL request (after approval)`;
+    if (ev.round === "SCHEDULE") return `SCHEDULE ${p.requests?.length ?? 0} loop(s), ${p.requests?.[0]?.days?.length ?? 0} candidate days`;
+    if (ev.round === "BOOK") return `BOOK ${p.bookings?.map((b) => b.day.slice(5)).join(", ")}`;
+    if (ev.round === "TRANSPORT") return `TRANSPORT ${p.legs?.length ?? 0} kidney(s): hospitals + day only`;
     return `${ev.round} request`;
   }
   if (p.error) return `refused: "${p.error}"`;
+  if (ev.round === "REGISTER" && p.role === "courier") return `courier registered (no patient data)`;
   if (ev.round === "REGISTER") return `${p.pairs.length} donor token(s): ${p.pairs.map((x) => x.donor_token).join(", ")}`;
   if (ev.round === "CHECK") return `${p.compatible.length} yes-answer(s) of ${p.checked} checks`;
   if (ev.round === "CONFIRM") return p.decisions.map((d) => (d.approved ? "approved" : "declined: " + d.category)).join(", ") || "no legs here";
   if (ev.round === "REVEAL") return `${p.people.length} identity released (consented)`;
+  if (ev.round === "SCHEDULE") return p.availability.map((a) => `${a.days.length} day(s) free`).join(", ");
+  if (ev.round === "BOOK") return p.results.map((r) => (r.booked ? `booked ${r.day.slice(5)}` : `declined ${r.day.slice(5)}: ${r.category}`)).join(", ");
+  if (ev.round === "TRANSPORT") return `${p.bookings.filter((b) => b.booked).length} van(s) booked`;
   return ev.round;
 }
 
 function ledger(ev) {
   const out = ev.type === "msg_sent";
   const node = out ? ev.to : ev.from;
-  const who = hname(state.hospitalOf[node]) || "node " + short(node);
+  const who = (node === state.courierNode && state.courierName) || hname(state.hospitalOf[node]) || "node " + short(node);
   const bad = !out && ev.payload?.error;
   const row = document.createElement("div");
   row.className = "lrow";
@@ -303,6 +315,63 @@ const handlers = {
     });
     status(`Identities revealed only now, after consent. ${e.legs.length} families, one gift each.`);
   },
+  courier: (e) => {
+    state.courierNode = e.node;
+    state.courierName = e.name;
+    const g = document.getElementById("n-" + e.node);
+    if (g) {
+      g.classList.add("courier");
+      const t = g.querySelectorAll("text");
+      t[0].textContent = "Courier";
+      t[1].textContent = "Golden Gate";
+    }
+  },
+  schedule_requested: () => {
+    $("#reveal").innerHTML = "";
+    status("Transplant Day: each hospital checks its own operating rooms and beds, privately.");
+  },
+  schedule_proposed: (e) => {
+    const loops = Object.keys(e.days);
+    const box = $("#day");
+    if (!box.querySelector(".day-title")) box.innerHTML = `<div class="day-title">Transplant Day <span>all surgeries in a loop happen together</span></div>`;
+    loops.forEach((i) => {
+      let row = document.getElementById("loop-" + i);
+      if (!row) {
+        row = document.createElement("div");
+        row.className = "loop-row";
+        row.id = "loop-" + i;
+        row.innerHTML = `<div class="loop-head"><span><b>Loop ${String.fromCharCode(65 + +i)}</b> · ${e.hospitals[i].map(hname).join(", ")}</span><span class="dates"></span></div><div class="vans"></div>`;
+        box.appendChild(row);
+      }
+      const dates = row.querySelector(".dates");
+      dates.querySelectorAll(".proposed").forEach((d) => d.remove());
+      dates.insertAdjacentHTML("beforeend", `<span class="date proposed">${fmtDay(e.days[i])}</span>`);
+    });
+    status("Coordinator proposes the earliest day every hospital in each loop can do.");
+  },
+  booking_declined: (e) => {
+    const d = document.querySelector(`#loop-${e.cycle} .date.proposed`);
+    if (d) { d.className = "date struck"; }
+    banner(`${hname(e.hospital)}: ${e.category} on ${fmtDay(e.day)}. Re-planning the whole loop.`, "", 2600);
+    status(`${hname(e.hospital)} lost its operating room. Every surgery in the loop must move together.`);
+  },
+  schedule_confirmed: (e) => {
+    Object.entries(e.days).forEach(([i]) => {
+      const row = document.getElementById("loop-" + i);
+      const d = row?.querySelector(".date.proposed");
+      if (d) d.className = "date ok";
+      row?.classList.add("ok");
+    });
+    banner("Operating rooms booked at every hospital", "good", 1600);
+  },
+  transport_booked: (e) => {
+    e.bookings.forEach((b) => {
+      const row = [...document.querySelectorAll(".loop-row")].find((r) => r.querySelector(".date.ok")?.textContent === fmtDay(b.day));
+      row?.querySelector(".vans").insertAdjacentHTML("beforeend",
+        `<div class="van">🚐 <b>${b.vehicle || "unassigned"}</b> · ${hname(b.from_hospital)} → ${hname(b.to_hospital)} · ${b.pickup}–${b.delivery || "?"}</div>`);
+    });
+    status(`${state.courierName || "The courier"} booked ${e.bookings.filter((b) => b.booked).length} cold-chain vans. It saw hospitals and days, never patients.`);
+  },
   injection_blocked: (e) => {
     banner(`🛡 Attack refused by ${hname(e.reply.hospital)}: "${e.reply.error}". No data returned.`, "shield", 3200);
     status("Privacy is enforced in code, not by a prompt: the hospital agent only answers four message types.");
@@ -339,6 +408,7 @@ function reset() {
   state.phase = "";
   $("#ledger").innerHTML = "";
   $("#reveal").innerHTML = "";
+  $("#day").innerHTML = "";
   for (const id of ["siloed", "naive", "optimal"]) $("#s-" + id + " .num").textContent = "–";
   document.querySelectorAll(".hcard").forEach((c) => c.classList.remove("matched"));
   if (state.nodes.length) drawNetwork(state.nodes), labelNodes();
@@ -402,7 +472,7 @@ $("#scaleBtn").onclick = showScale;
 $("#scale").onclick = () => $("#scale").classList.add("hidden");
 document.addEventListener("keydown", (e) => {
   const k = e.key.toLowerCase();
-  if (["1", "2", "3", "4"].includes(k)) run(["match", "confirm", "reject", "inject"][+k - 1]);
+  if (["1", "2", "3", "4", "5"].includes(k)) run(["match", "confirm", "reject", "inject", "cancel"][+k - 1]);
   else if (k === "p") document.body.classList.toggle("peek");
   else if (k === "s") ($("#scale").classList.contains("hidden") ? showScale() : $("#scale").classList.add("hidden"));
   else if (k === "l") setMode(state.mode === "live" ? "replay" : "live");

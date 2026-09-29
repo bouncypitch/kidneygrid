@@ -224,6 +224,12 @@
   }
  },
  {
+  "type": "courier",
+  "node": "9990001",
+  "id": "golden-gate-courier",
+  "name": "Golden Gate Medical Courier"
+ },
+ {
   "type": "hospitals",
   "hospitals": [
    {

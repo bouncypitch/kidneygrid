@@ -61,6 +61,8 @@ class Coordinator:
 
         regs = self._round(REGISTER, [(n, {"type": REGISTER, "salt": salt}) for n in nodes])
         couriers = [n for n, r in regs.items() if r.get("role") == "courier"]
+        for n in couriers:
+            self.emit("courier", {"node": n, "id": regs[n]["hospital"], "name": regs[n].get("display_name", "Courier")})
         nodes = [n for n in nodes if n not in couriers and "error" not in regs[n]]
         regs = {n: regs[n] for n in nodes}
         hospitals = {node: reg["hospital"] for node, reg in regs.items()}
